@@ -1,0 +1,28 @@
+{
+  "name": "ods-country-code-lookup",
+  "version": "0.0.1",
+  "description": "Lookup any countries whose SHAPE, defined by boundaries, interacts with a provided WKT SHAPE e.g. What countries interact with the WKT shape I provided?",
+  "main": "index.ts",
+  "scripts": {
+    "start": "nodemon -r ts-node/register index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Steven Sederburg <stevenscloud@live.com>",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^2.0.1",
+    "dotenv": "^6.1.0",
+    "kyber-server": "0.0.4",
+    "lodash": "^4.17.11",
+    "oracledb": "^3.0.0",
+    "ts-node": "^7.0.1",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/es6-promise": "^3.3.0",
+    "@types/fs-extra": "^5.0.4",
+    "@types/node": "^10.12.0",
+    "nodemon": "^1.18.4",
+    "typescript": "^3.1.3"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "_build",
+    "outDir": "./app",
     "sourceMap": false,
     "declaration": false,
     "moduleResolution": "node",
@@ -19,6 +19,7 @@
   "exclude": [
     "_build",
     "_bundle",
-    "localbuilder.ts"
+    "localbuilder.ts",
+    "app"
 	]
 }

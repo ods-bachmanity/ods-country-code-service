@@ -81,7 +81,7 @@ async function startup() {
         await connection.close()
         console.log(`Closed initialization test connection.`)
         console.log(`Initializing Logging Interface`)
-        // logger.connect(kyber)
+        logger.connect(kyber)
         console.log(`Starting up Kyber Server`)
         kyber.start()
     }

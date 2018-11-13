@@ -66,4 +66,4 @@ _docker/
 
 package-lock.json
 app/node_modules
-app/
+app/.env

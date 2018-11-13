@@ -12,7 +12,19 @@ You must create contents of the `.env` file for the application to startup. The 
 Server will start on the PORT identified in `/config/default.json`
 
 ## BUILD
-Yet to be provided. Temporarily can use command `tsc` to create compiled JavaScript in an `./app` folder. You would have to manually copy other required files, such as `.env` into the new `./app` directory for the "built" application to work properly. Would also need to manually create a `package.json` file as a copy from the root directory. Since the compiled code would be JavaScript, the `start` command in the `./app` directory should be changed to be just `node index.js`.
+- Ensure all required files are located in the `./app` directory
+- To copy latest code into build, run command from project `$root` `tsc`
+- The `tsc` command runs the TypeScript compiler and outputs JavaScript into the target directory `./app`
+- Run docker commands to stand up the `./app` folder as a docker container. You would execute these commands with current working directory of `./app` e.g. `cd ./app` first
+  - `docker build -t country-code-service .`
+  - `docker run -it -d -p 80:8080 country-code-service`
+
+Some helpful Docker Commands
+- `docker ps -l` Lists all running docker containers
+- `docker images` Lists all docker images on local machine
+- `docker rmi containername or id` Removes the image from docker
+- `docker rm containername or id` Removes a docker container from docker. Can use `-f` option to force destruction.
+- `docker stop containername or id` Stops a running docker container
 
 
 ## USAGE

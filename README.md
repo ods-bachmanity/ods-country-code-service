@@ -13,8 +13,7 @@ Server will start on the PORT identified in `/config/default.json`
 
 ## BUILD
 - Ensure all required files are located in the `./app` directory
-- To copy latest code into build, run command from project `$root` `tsc`
-- The `tsc` command runs the TypeScript compiler and outputs JavaScript into the target directory `./app`
+- To copy latest code into build, run command from the root of the project `tsc` .The `tsc` command runs the TypeScript compiler and outputs JavaScript into the target directory `./app`
 - Run docker commands to stand up the `./app` folder as a docker container. You would execute these commands with current working directory of `./app` e.g. `cd ./app` first
   - `docker build -t country-code-service .`
   - `docker run -it -d -p 80:8080 country-code-service`

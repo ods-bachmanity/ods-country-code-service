@@ -24,6 +24,7 @@ Some helpful Docker Commands
 - `docker rmi containername or id` Removes the image from docker
 - `docker rm containername or id` Removes a docker container from docker. Can use `-f` option to force destruction.
 - `docker stop containername or id` Stops a running docker container
+- `docker exec -it CONTAINERGUID /bin/bash` Run a bash prompt within Docker container where CONTAINERGUID comes from `docker ps -l` command.
 
 
 ## USAGE

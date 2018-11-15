@@ -1,0 +1,29 @@
+[
+  {
+    "host": "localhost:8080",
+    "testData": [
+      {
+        "testName": "health check",
+        "testNumber": 0,
+        "expectedReponse": {
+          "code": 0,
+          "message": "",
+          "errors": [],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "Bad Point",
+        "testNumber": 1,
+        "expectedReponse": {
+          "code": -1,
+          "message": "Error in Country Code Service",
+          "errors": [
+            "ExecutionContext.runActvities.error: GetCountriesComposer.connection.execute.Error: Oracle Error Number: 29902 Offset: 165"
+          ],
+          "warnings": []
+        }
+      }
+    ]
+  }
+]

@@ -1,7 +1,7 @@
 import {KyberServer, KyberServerEvents } from 'kyber-server'
 import * as config from 'config'
 import { HealthCheckGetSchematic, GetCountriesSchematic, PostCountriesSchematic, CountryCodeServiceSchematic } from './schematics'
-import { DataProvider, Logger } from './common';
+import { DataProvider, Logger } from './common'
 
 const kyber = new KyberServer({
     port: config.port

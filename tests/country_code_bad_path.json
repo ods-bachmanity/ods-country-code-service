@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "bc368c3a-36c9-4a6c-8f75-ca0184f3e81c",
+	"name": "CountryCode",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Bad Endpoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 404\",function () {",
+							"      pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test('check response with no errors', () => {",
+								"pm.response.to.have.status(404);",
+                "pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{host}}/api/fuzzy",
+				"method": "GET",
+				"header": [{
+					"key": "Content-Type",
+					"value": "application/json"
+				}],
+				"body": {},
+
+				"description": "This request returns a successful response and performs assertions on expected content values"
+			},
+			"response": []
+		},
+		{
+			"name": "Bad Point Check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 400\",function () {",
+							"      pm.response.to.have.status(400);",
+							"});",
+							"",
+              "pm.test(\"Check Bad Point Response \", function () {",
+                " errorResponse = pm.response.json()",
+                " testData = pm.iterationData.get(\"testData\")",
+                " expectedReponse = testData[1].expectedReponse",
+                " pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+                " pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+              	" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+                " pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+                "});",
+                ""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"wkt\":\"POINT(-89.45973)\"}\n"
+				},
+				"url": {
+					"raw": "http://{{host}}/api/countries",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"countries"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

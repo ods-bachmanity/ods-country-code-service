@@ -10,6 +10,7 @@
       {
         "testName": "USAPointCheck",
         "testNumber": 1,
+        "requestBody":{"wkt":"POINT(-89.45973 30.230595)"},
         "expectedCountries": [
           {
             "OBJECTID": 209,
@@ -21,8 +22,9 @@
         ]
       },
       {
-        "testName": "LineCheck",
+        "testName": "Check Line",
         "testNumber": 2,
+        "requestBody":{"wkt":"LINESTRING(7.286144 16.514697, 17.7025717 14.828774)"},
         "expectedCountries": [
           {
             "OBJECTID": 36,
@@ -43,6 +45,7 @@
       {
         "testName": "Multilinestring",
         "testNumber": 3,
+        "requestBody":{"wkt":"MULTILINESTRING ((10 10, 20 20, 10 40),(40 40, 30 30, 40 20, 30 10))"},
         "expectedCountries": [
           {
             "OBJECTID": 190,
@@ -103,8 +106,9 @@
         ]
       },
       {
-        "testName": "Check Line North Western Hemispher",
+        "testName": "Check Line North Western Hemisphere",
         "testNumber": 4,
+        "requestBody":{"wkt":"LINESTRING(-122 47, -123.123 49.257)"},
         "expectedCountries": [
           {
             "OBJECTID": 24,
@@ -125,6 +129,7 @@
       {
         "testName": "Check Line South Western Hemisphere",
         "testNumber": 5,
+            "requestBody":{"wkt":"LINESTRING(-52.5904 -5.7795, -55.613 -23.3311)"},
         "expectedCountries": [
           {
             "OBJECTID": 21,
@@ -145,6 +150,7 @@
       {
         "testName": "Check Line North Eastern Hemisphere",
         "testNumber": 6,
+            "requestBody":{"wkt":"LINESTRING(35.17772 39.08764,25.5432 42.7253)"},
         "expectedCountries": [
           {
               "OBJECTID": 202,
@@ -165,6 +171,7 @@
       {
         "testName": "Check Line South Eastern Hemisphere",
         "testNumber": 7,
+            "requestBody":{"wkt":"LINESTRING(23.2516 -30.6283, 133.4170 -26.17722)"},
         "expectedCountries": [
           {
               "OBJECTID": 9,
@@ -192,6 +199,7 @@
       {
         "testName": "Check Line North West to South West Hemisphere",
         "testNumber": 8,
+            "requestBody": {"wkt":"LINESTRING(-102.620 23.554,-51.316 -14.408)"},
         "expectedCountries": [
           {
                "OBJECTID": 21,
@@ -247,6 +255,7 @@
       {
         "testName": "Check Line NorthWest to NorthEast Hemisphere",
         "testNumber": 9,
+            "requestBody":{"wkt":"LINESTRING(-77.258 38.636,-3.713 40.2085)"},
         "expectedCountries": [
           {
               "OBJECTID": 209,
@@ -274,6 +283,7 @@
       {
         "testName": "Check Line SouthWest to NorthEast Hemisphere",
         "testNumber": 10,
+            "requestBody":{"wkt":"LINESTRING(-66.9504 6.5772,2.3470 48.8588)"},
         "expectedCountries": [
           {
               "OBJECTID": 214,
@@ -308,6 +318,7 @@
       {
         "testName": "Check Line SouthWest to SouthEast Hemisphere",
         "testNumber": 11,
+        "requestBody": {"wkt":"LINESTRING(-52.5564 -13.2856, 16.8965 -22.4102)"},
         "expectedCountries": [
           {
               "OBJECTID": 218,
@@ -328,6 +339,7 @@
       {
         "testName": "MultlineString Check 2",
         "testNumber": 12,
+            "requestBody":{"wkt":"MULTILINESTRING ((-52.5564 -13.2856, 16.8965 -22.4102),(35.17772 39.08764,25.5432 42.7253),(23.2516 -30.6283, 133.4170 -26.17722))"},
         "expectedCountries": [
           {
               "OBJECTID": 9,
@@ -383,6 +395,7 @@
       {
         "testName": "Check Polygon",
         "testNumber": 13,
+            "requestBody": {"wkt":"POLYGON ((10.8936 49.8856 , 6.0572 49.7935,2.3470 48.8588,7.3948 46.9546,10.8936 49.8856 ))"},
         "expectedCountries": [
           {
               "OBJECTID": 65,

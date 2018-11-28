@@ -1,681 +1,710 @@
 {
-	"info": {
-		"_postman_id": "bc368c3a-36c9-4a6c-8f75-ca0184f3e81c",
-	"name": "CountryCode",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "http://{{host}}/api/health",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test('check response with no errors', () => {",
-								"pm.response.to.have.status(200);",
-                "pm.response.to.have.header(\"Content-Type\");",
-							"});",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "http://{{host}}/api/health",
-				"method": "GET",
-				"header": [{
-					"key": "Content-Type",
-					"value": "application/json"
-				}],
-				"body": {},
-
-				"description": "This request returns a successful response and performs assertions on expected content values"
-			},
-			"response": []
-		},
-		{
-			"name": "Point Check",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check USA Point\", function () {",
-								"let countryRows = pm.response.json().rows",
-								"let testData = pm.iterationData.get(\"testData\")",
-								"let expectedCountries = testData[1].expectedCountries",
-					    	"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"POINT(-89.45973 30.230595)\"}\n"
+  "info": {
+    "_postman_id": "bc368c3a-36c9-4a6c-8f75-ca0184f3e81c",
+    "name": "CountryCode",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "testNumber",
+      "value": 0,
+      "type": "int"
+    },
+    {
+      "key": "requestBody",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "testNumber = pm.variables.get(\"testNumber\");",
+          "let testData = pm.iterationData.get(\"testData\")",
+          "let requestBody = JSON.stringify(testData[testNumber].requestBody)",
+          "++testNumber",
+          "pm.variables.set(\"testNumber\",testNumber);",
+          "pm.variables.set(\"requestBody\",requestBody);"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "http://{{host}}/api/health",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('check response with no errors', () => {",
+              "pm.response.to.have.status(200);",
+              "pm.response.to.have.header(\"Content-Type\");",
+              "});",
+              ""
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "http://{{host}}/api/health",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {},
+        "description": "This request returns a successful response and performs assertions on expected content values"
+      },
+      "response": []
+    },
+    {
+      "name": "Point Check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check USA Point\", function () {",
+              "let countryRows = pm.response.json().rows",
+              "let testData = pm.iterationData.get(\"testData\")",
+              "let expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw":"{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Line Check (Chad, Niger)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Line\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Multilinestring",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Multilinestring\", function () {",
+              "let countryRows = pm.response.json().rows",
+              "let testData = pm.iterationData.get(\"testData\")",
+              "let expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Line (Canada,USA)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Line North Western Hemisphere\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Line (Brail,Paraguay)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Line South Western Hemisphere\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Line (Turkey,Bulgaria)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Line North Eastern Hemisphere\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              " pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Line (South African, Australia)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Line South Eastern Hemisphere\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Line (Mexico,Brazil)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Line North West to South West Hemisphere\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw":"{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Line (USA,Spain)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Line NorthWest to NorthEast Hemisphere\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Line (Venezuela,France)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Line SouthWest to NorthEast Hemisphere\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Line (Nambia,Brazil)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Line SouthWest to SouthEast Hemisphere\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw":"{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check MultlineString",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"MultlineString Check 2\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
 				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Line Check (Chad, Niger)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Line\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[2].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"LINESTRING(7.286144 16.514697, 17.7025717 14.828774)\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Multilinestring",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Multilinestring\", function () {",
-								"let countryRows = pm.response.json().rows",
-								"let testData = pm.iterationData.get(\"testData\")",
-								"let expectedCountries = testData[3].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"MULTILINESTRING ((10 10, 20 20, 10 40),(40 40, 30 30, 40 20, 30 10))\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Line (Canada,USA)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Line North Western Hemisphere\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[4].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"LINESTRING(-122 47, -123.123 49.257)\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Line (Brail,Paraguay)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Line South Western Hemisphere\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[5].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"LINESTRING(-52.5904 -5.7795, -55.613 -23.3311)\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Line (Turkey,Bulgaria)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Line North Eastern Hemisphere\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[6].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"LINESTRING(35.17772 39.08764,25.5432 42.7253)\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Line (South African, Australia)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Line South Eastern Hemisphere\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[7].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"LINESTRING(23.2516 -30.6283, 133.4170 -26.17722)\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Line (Mexico,Brazil)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Line North West to South West Hemisphere\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[8].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"LINESTRING(-102.620 23.554,-51.316 -14.408)\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Line (USA,Spain)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Line NorthWest to NorthEast Hemisphere\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[9].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"LINESTRING(-77.258 38.636,-3.713 40.2085)\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Line (Venezuela,France)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Line SouthWest to NorthEast Hemisphere\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[10].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"LINESTRING(-66.9504 6.5772,2.3470 48.8588)\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Line (Nambia,Brazil)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Line SouthWest to SouthEast Hemisphere\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[11].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"LINESTRING(-52.5564 -13.2856, 16.8965 -22.4102)\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check MultlineString",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"MultlineString Check 2\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[12].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"MULTILINESTRING ((-52.5564 -13.2856, 16.8965 -22.4102),(35.17772 39.08764,25.5432 42.7253),(23.2516 -30.6283, 133.4170 -26.17722))\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Polygon Check",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 200\",function () {",
-							"      pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Check Polygon\", function () {",
-								" countryRows = pm.response.json().rows",
-								" testData = pm.iterationData.get(\"testData\")",
-								" expectedCountries = testData[13].expectedCountries",
-								"pm.expect(expectedCountries).to.have.deep.members(countryRows);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"wkt\":\"POLYGON ((10.8936 49.8856 , 6.0572 49.7935,2.3470 48.8588,7.3948 46.9546,10.8936 49.8856 ))\"}\n"
-				},
-				"url": {
-					"raw": "http://{{host}}/api/countries",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"countries"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Polygon Check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\",function () {",
+              "      pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Check Polygon\", function () {",
+              " countryRows = pm.response.json().rows",
+              " testData = pm.iterationData.get(\"testData\")",
+              " expectedCountries = testData[testNumber-1].expectedCountries",
+              "pm.expect(expectedCountries).to.have.deep.members(countryRows);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw":"{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

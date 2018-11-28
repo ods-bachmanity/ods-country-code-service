@@ -2,6 +2,7 @@ import { Schematic, Parameter, Activity, ExecutionMode, StartsWithAny, Schematic
 import { DataProvider, ErrorResponse } from '../common'
 import { GetCountriesComposer } from '../composers'
 import { GetCountriesSchematic } from './'
+import { DefaultResponseSchema, ErrorResponseSchema } from '../schemas'
 
 export class PostCountriesSchematic extends GetCountriesSchematic {
 
@@ -36,7 +37,8 @@ export class PostCountriesSchematic extends GetCountriesSchematic {
     responses: Array<SchematicResponse> = [
         {
             httpStatus: 200,
-            class: RawResponse
+            class: RawResponse,
+            schema: DefaultResponseSchema
         }
     ]
 

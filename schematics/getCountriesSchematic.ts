@@ -1,7 +1,8 @@
-import { Schematic, Parameter, Activity, StartsWith, EndsWith, StartsWithAny, EndsWithAny, ExecutionMode,
+import { Schematic, Parameter, Activity, StartsWithAny, ExecutionMode,
     SchematicResponse, RawResponse } from 'kyber-server'
 import { DataProvider, ErrorResponse } from '../common'
 import { GetCountriesComposer } from '../composers'
+import { DefaultResponseSchema, ErrorResponseSchema } from '../schemas'
 
 export class GetCountriesSchematic extends Schematic {
 
@@ -42,15 +43,8 @@ export class GetCountriesSchematic extends Schematic {
     responses: Array<SchematicResponse> = [
         {
             httpStatus: 200,
-            class: RawResponse
-        },
-        {
-            httpStatus: 400,
-            class: ErrorResponse
-        },
-        {
-            httpStatus: 500,
-            class: ErrorResponse
+            class: RawResponse,
+            schema: DefaultResponseSchema
         }
     ]
 

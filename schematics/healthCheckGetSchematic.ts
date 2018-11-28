@@ -1,6 +1,7 @@
 import { Schematic, Parameter, Activity, ExecutionMode, SchematicResponse, RawResponse } from 'kyber-server'
 import { DataProvider, ErrorResponse } from '../common'
 import { HealthCheckComposer } from '../composers'
+import { HealthResponseSchema } from '../schemas'
 
 export class HealthCheckGetSchematic extends Schematic {
 
@@ -27,15 +28,8 @@ export class HealthCheckGetSchematic extends Schematic {
     responses: Array<SchematicResponse> = [
         {
             httpStatus: 200,
-            class: RawResponse
-        },
-        {
-            httpStatus: 400,
-            class: ErrorResponse
-        },
-        {
-            httpStatus: 500,
-            class: ErrorResponse
+            class: RawResponse,
+            schema: HealthResponseSchema
         }
     ]
 

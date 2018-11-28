@@ -1,6 +1,6 @@
 {
   "name": "ods-country-code-lookup",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Lookup any countries whose SHAPE, defined by boundaries, interacts with a provided WKT SHAPE e.g. What countries interact with the WKT shape I provided?",
   "main": "index.ts",
   "scripts": {
@@ -17,7 +17,7 @@
     "appdynamics": "^4.5.2",
     "config": "^2.0.1",
     "dotenv": "^6.1.0",
-    "kyber-server": "0.0.8",
+    "kyber-server": "0.0.9",
     "lodash": "^4.17.11",
     "oracledb": "^3.0.0",
     "ts-node": "^7.0.1",

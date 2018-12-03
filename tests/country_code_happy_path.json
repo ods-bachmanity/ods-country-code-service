@@ -102,7 +102,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw":"{{requestBody}}"
+          "raw": "{{requestBody}}"
         },
         "url": {
           "raw": "http://{{host}}/api/countries",
@@ -445,7 +445,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw":"{{requestBody}}"
+          "raw": "{{requestBody}}"
         },
         "url": {
           "raw": "http://{{host}}/api/countries",
@@ -592,7 +592,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw":"{{requestBody}}"
+          "raw": "{{requestBody}}"
         },
         "url": {
           "raw": "http://{{host}}/api/countries",
@@ -642,7 +642,7 @@
         "body": {
           "mode": "raw",
           "raw": "{{requestBody}}"
-				},
+        },
         "url": {
           "raw": "http://{{host}}/api/countries",
           "protocol": "http",
@@ -690,7 +690,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw":"{{requestBody}}"
+          "raw": "{}"
         },
         "url": {
           "raw": "http://{{host}}/api/countries",

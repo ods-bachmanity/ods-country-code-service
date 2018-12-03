@@ -5,6 +5,7 @@
       {
         "testName": "health check",
         "testNumber": 0,
+        "requestBody": "",
         "expectedReponse": {
           "code": 0,
           "message": "",
@@ -13,16 +14,192 @@
         }
       },
       {
-        "testName": "Bad Point",
+        "testName": "400 Error: Invalid WKT",
         "testNumber": 1,
+        "requestBody": {
+          "wkt": "POINT(30X 30)"
+        },
         "expectedReponse": {
           "code": -1,
           "message": "Error in Country Code Service",
+          "correlationId": "7b88fbf3-5ebc-4b45-afe7-42bf647875e7",
           "errors": [
             "ExecutionContext.runActvities.error: GetCountriesComposer.connection.execute.Error: Oracle Error Number: 29902 Offset: 165"
           ],
           "warnings": []
         }
+      },
+      {
+        "testName": "400 Error: Missing required WKT for POST",
+        "testNumber": 2,
+        "requestBody": {
+          "": "POINT(30 30)"
+        },
+        "expectedReponse": {
+          "code": -1,
+          "message": "Error in Country Code Service",
+          "errors": [
+            "Parameter wkt is required.",
+            "ExecutionContext.loadParameters: Error: Invalid Request"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "400 Error: Empty JSON body",
+        "testNumber": 3,
+        "requestBody": {},
+        "expectedReponse": {
+          "code": -1,
+          "message": "Error in Country Code Service",
+          "errors": [
+            "Parameter wkt is required.",
+            "ExecutionContext.loadParameters: Error: Invalid Request"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "400 Error: Content-Type application/xml",
+        "testNumber": 4,
+        "requestBody": {},
+        "expectedReponse": {
+          "code": -1,
+          "message": "Error in Country Code Service",
+          "correlationId": "5f39625e-b0d1-439e-8fa0-4526d503c43d",
+          "errors": [
+            "Parameter wkt is required.",
+            "ExecutionContext.loadParameters: Error: Invalid Request"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "400 Error: Bad WKT GET",
+        "testNumber": 5,
+        "expectedReponse": {
+          "code": -1,
+          "message": "Error in Country Code Service",
+          "correlationId": "34f6e247-acfa-4c5c-b0c9-1cf4f714b73e",
+          "errors": [
+            "Parameter wkt is an invalid data type. Should be string.",
+            "ExecutionContext.loadParameters: Error: Invalid Request"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "404 Error: GET /api/countrie",
+        "testNumber": 6,
+        "requestBody": {},
+        "expectedReponse": {
+          "code": -1,
+          "message": "Unable to locate path /api/countrie",
+          "correlationId": "09b80846-7e73-43fc-8b24-e138f7268652",
+          "errors": [
+            "Unable to locate path /api/countrie"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "404 Error: POST /api/countrie",
+        "testNumber": 7,
+        "requestBody": {},
+        "expectedReponse": {
+          "code": -1,
+          "message": "Unable to locate path /api/countrie",
+          "correlationId": "b3eadfc7-782d-421a-bd22-ea31eceae3d2",
+          "errors": [
+            "Unable to locate path /api/countrie"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "404 Error: GET /api/countries/444",
+        "testNumber": 8,
+        "requestBody": {},
+        "expectedReponse": {
+          "code": -1,
+          "message": "Unable to locate path /api/countries/444",
+          "correlationId": "09b80846-7e73-43fc-8b24-e138f7268652",
+          "errors": [
+            "Unable to locate path /api/countries/444"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "404 Error: POST /api/countries/444",
+        "testNumber": 9,
+        "requestBody": {},
+        "expectedReponse": {
+          "code": -1,
+          "message": "Unable to locate path /api/countries/444",
+          "correlationId": "b3eadfc7-782d-421a-bd22-ea31eceae3d2",
+          "errors": [
+            "Unable to locate path /api/countries/444"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "404 Error: GET /countries",
+        "testNumber": 10,
+        "requestBody": {},
+        "expectedReponse": {
+          "code": -1,
+          "message": "Unable to locate path /countries",
+          "correlationId": "09b80846-7e73-43fc-8b24-e138f7268652",
+          "errors": [
+            "Unable to locate path /countries"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "404 Error: POST /countries",
+        "testNumber": 11,
+        "requestBody": {},
+        "expectedReponse": {
+          "code": -1,
+          "message": "Unable to locate path /countries",
+          "correlationId": "b3eadfc7-782d-421a-bd22-ea31eceae3d2",
+          "errors": [
+            "Unable to locate path /countries"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "404 Error: PUT /api/countries",
+        "testNumber": 12,
+        "requestBody": {
+          "wkt": "POINT(30 30)"
+        },
+        "expectedReponse": {
+          "code": -1,
+          "message": "Unable to locate path /api/countries",
+          "correlationId": "7c4e8810-bd32-46d0-a3e7-298b64a922ce",
+          "errors": [
+            "Unable to locate path /api/countries"
+          ],
+          "warnings": []
+        }
+      },
+      {
+        "testName": "500 Error: Bad JSON Syntax",
+        "testNumber": 13,
+        "requestBody":"{]",
+        "expectedReponse": {
+    "code": -1,
+    "message": "Unhandled Exception in service: /api/countries: SyntaxError: Unexpected token \" in JSON at position 0",
+    "errors": [
+        "Unhandled Exception in service: /api/countries: SyntaxError: Unexpected token \" in JSON at position 0"
+    ],
+    "warnings": []
+}
       }
     ]
   }

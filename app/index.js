@@ -6,19 +6,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const env = require("dotenv").config();
-if (process.env.APPDYNAMICS_HOSTNAME) {
-    require('appdynamics').profile({
-        controllerHostName: process.env.APPDYNAMICS_HOSTNAME,
-        controllerPort: process.env.APPDYNAMICS_PORT,
-        controllerSslEnabled: process.env.APPDYNAMICS_SSLENABLED,
-        accountName: process.env.APPDYNAMICS_ACCOUNTNAME,
-        accountAccessKey: process.env.APPDYNAMICS_ACCOUNTKEY,
-        applicationName: process.env.APPDYNAMICS_APPNAME,
-        tierName: process.env.APPDYNAMICS_TIERNAME,
-        nodeName: process.env.APPDYNAMICS_NODENAME
-    });
-}
 import { KyberServer, KyberServerEvents } from 'kyber-server';
 import * as config from 'config';
 import { HealthCheckGetSchematic, GetCountriesSchematic, PostCountriesSchematic, CountryCodeServiceSchematic } from './schematics';

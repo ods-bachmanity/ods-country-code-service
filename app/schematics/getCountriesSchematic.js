@@ -1,48 +1,67 @@
-import { Schematic, StartsWithAny, ExecutionMode, RawResponse } from 'kyber-server';
-import { DataProvider } from '../common';
-import { GetCountriesComposer } from '../composers';
-import { DefaultResponseSchema } from '../schemas';
-export class GetCountriesSchematic extends Schematic {
-    constructor() {
-        super(...arguments);
-        this.id = 'GetCountriesSchematic';
-        this.description = 'Use GET verb to retrieve list of ALL countries OR countries interacted by wkt shape.';
-        this.timeout = 10000;
-        this.parameters = [
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var kyber_server_1 = require("kyber-server");
+var common_1 = require("../common");
+var composers_1 = require("../composers");
+var schemas_1 = require("../schemas");
+var GetCountriesSchematic = (function (_super) {
+    __extends(GetCountriesSchematic, _super);
+    function GetCountriesSchematic() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.id = 'GetCountriesSchematic';
+        _this.description = 'Use GET verb to retrieve list of ALL countries OR countries interacted by wkt shape.';
+        _this.timeout = 10000;
+        _this.parameters = [
             {
                 name: 'wkt',
                 source: 'req.query.wkt',
                 required: false,
                 dataType: 'string',
                 validators: [
-                    (value) => {
-                        return StartsWithAny(['POINT', 'LINESTRING', 'POLYGON', 'MULTILINESTRING'], value);
+                    function (value) {
+                        return kyber_server_1.StartsWithAny(['POINT', 'LINESTRING', 'POLYGON', 'MULTILINESTRING'], value);
                     }
                 ]
             }
         ];
-        this.sharedResources = [
-            DataProvider
+        _this.sharedResources = [
+            common_1.DataProvider
         ];
-        this.activities = [
+        _this.activities = [
             {
                 id: 'COMPOSE',
                 ordinal: 0,
-                executionMode: ExecutionMode.Concurrent,
-                description: `Gather a list of countries from the boundaries database.`,
+                executionMode: kyber_server_1.ExecutionMode.Concurrent,
+                description: "Gather a list of countries from the boundaries database.",
                 processes: [{
-                        class: GetCountriesComposer,
+                        class: composers_1.GetCountriesComposer,
                         description: 'Load all the countries from boundaries database.'
                     }],
                 activities: []
             }
         ];
-        this.responses = [
+        _this.responses = [
             {
                 httpStatus: 200,
-                class: RawResponse,
-                schema: DefaultResponseSchema
+                class: kyber_server_1.RawResponse,
+                schema: schemas_1.DefaultResponseSchema
             }
         ];
+        return _this;
     }
-}
+    return GetCountriesSchematic;
+}(kyber_server_1.Schematic));
+exports.GetCountriesSchematic = GetCountriesSchematic;

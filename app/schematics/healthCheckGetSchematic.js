@@ -1,34 +1,53 @@
-import { Schematic, ExecutionMode, RawResponse } from 'kyber-server';
-import { DataProvider } from '../common';
-import { HealthCheckComposer } from '../composers';
-import { HealthResponseSchema } from '../schemas';
-export class HealthCheckGetSchematic extends Schematic {
-    constructor() {
-        super(...arguments);
-        this.id = 'HealthCheckSchematic';
-        this.description = 'Use GET verb to check the health of the service.';
-        this.parameters = [];
-        this.timeout = 10000;
-        this.sharedResources = [
-            DataProvider
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var kyber_server_1 = require("kyber-server");
+var common_1 = require("../common");
+var composers_1 = require("../composers");
+var schemas_1 = require("../schemas");
+var HealthCheckGetSchematic = (function (_super) {
+    __extends(HealthCheckGetSchematic, _super);
+    function HealthCheckGetSchematic() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.id = 'HealthCheckSchematic';
+        _this.description = 'Use GET verb to check the health of the service.';
+        _this.parameters = [];
+        _this.timeout = 10000;
+        _this.sharedResources = [
+            common_1.DataProvider
         ];
-        this.activities = [
+        _this.activities = [
             {
                 id: 'COMPOSE',
                 ordinal: 0,
-                executionMode: ExecutionMode.Concurrent,
+                executionMode: kyber_server_1.ExecutionMode.Concurrent,
                 processes: [{
-                        class: HealthCheckComposer
+                        class: composers_1.HealthCheckComposer
                     }],
                 activities: []
             }
         ];
-        this.responses = [
+        _this.responses = [
             {
                 httpStatus: 200,
-                class: RawResponse,
-                schema: HealthResponseSchema
+                class: kyber_server_1.RawResponse,
+                schema: schemas_1.HealthResponseSchema
             }
         ];
+        return _this;
     }
-}
+    return HealthCheckGetSchematic;
+}(kyber_server_1.Schematic));
+exports.HealthCheckGetSchematic = HealthCheckGetSchematic;

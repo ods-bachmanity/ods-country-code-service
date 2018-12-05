@@ -1,15 +1,15 @@
-import {KyberServer, KyberServerEvents } from 'kyber-server'
-import * as config from 'config'
-import { HealthCheckGetSchematic, GetCountriesSchematic, PostCountriesSchematic, CountryCodeServiceSchematic } from './schematics'
-import { DataProvider, Logger } from './common'
+import {KyberServer, KyberServerEvents } from 'kyber-server';
+import * as config from 'config';
+import { HealthCheckGetSchematic, GetCountriesSchematic, PostCountriesSchematic, CountryCodeServiceSchematic } from './schematics';
+import { DataProvider, Logger } from './common';
 
 const kyber = new KyberServer({
     port: config.port
-})
+});
 
 // declare an instance of the oracle database to be shared with schematics
-const dataProvider = new DataProvider()
-const logger = new Logger()
+const dataProvider = new DataProvider();
+const logger = new Logger();
 
 // register a global schematic to handle errors, run before each execution, run after each execution, startup and shutdown
 kyber.registerGlobalSchematic(
@@ -19,7 +19,7 @@ kyber.registerGlobalSchematic(
             name: 'dataProvider',
             instanceOfType: dataProvider
         }
-    ])
+    ]);
 
 // GET /api/health
 kyber.registerRoute({
@@ -32,14 +32,14 @@ kyber.registerRoute({
             instanceOfType: dataProvider
         }
     ]
-})
+});
 
 kyber.events.on(KyberServerEvents.ServerStopping, () => {
     console.log(`\nServer Stopping...`)
     if (dataProvider) {
         dataProvider.shutdown()
     }
-})
+});
 
 // GET /api/countries
 kyber.registerRoute({
@@ -52,7 +52,7 @@ kyber.registerRoute({
             instanceOfType: dataProvider
         }
     ]
-})
+});
 
 // POST /api/countries
 kyber.registerRoute({
@@ -65,7 +65,7 @@ kyber.registerRoute({
             instanceOfType: dataProvider
         }
     ]
-})
+});
 
 // Helper method to handle initialization and precondition check on database connection
 // Note: We do not call kyber.start() until after all routes are registered and all shared resources are verified/seeded etc.
@@ -87,10 +87,10 @@ async function startup() {
     }
     catch (err) {
         console.error(`ERROR STARTING DATABASE CONNECTION: ${err}`)
-        process.exit(1)        
-    }    
-}
+        process.exit(1)
+    }
+};
 
 // Start the Server
-startup()
+startup();
 

@@ -1,44 +1,30 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var kyber_server_1 = require("kyber-server");
-var common_1 = require("../common");
-var composers_1 = require("../composers");
-var _1 = require("./");
-var schemas_1 = require("../schemas");
-var PostCountriesSchematic = (function (_super) {
-    __extends(PostCountriesSchematic, _super);
-    function PostCountriesSchematic() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.id = 'PostCountriesSchematic';
-        _this.description = 'Use POST verb to retrieve list of ALL countries OR countries interacted by wkt shape.';
-        _this.parameters = [{
+const kyber_server_1 = require("kyber-server");
+const common_1 = require("../common");
+const composers_1 = require("../composers");
+const _1 = require("./");
+const schemas_1 = require("../schemas");
+class PostCountriesSchematic extends _1.GetCountriesSchematic {
+    constructor() {
+        super(...arguments);
+        this.id = 'PostCountriesSchematic';
+        this.description = 'Use POST verb to retrieve list of ALL countries OR countries interacted by wkt shape.';
+        this.parameters = [{
                 name: 'wkt',
                 source: 'req.body.wkt',
                 required: true,
                 dataType: 'string',
                 validators: [
-                    function (value) {
+                    (value) => {
                         return kyber_server_1.StartsWithAny(['POINT', 'LINESTRING', 'POLYGON', 'MULTILINESTRING'], value);
                     }
                 ]
             }];
-        _this.sharedResources = [
+        this.sharedResources = [
             common_1.DataProvider
         ];
-        _this.activities = [
+        this.activities = [
             {
                 id: 'COMPOSE',
                 ordinal: 0,
@@ -49,15 +35,13 @@ var PostCountriesSchematic = (function (_super) {
                 activities: []
             }
         ];
-        _this.responses = [
+        this.responses = [
             {
                 httpStatus: 200,
                 class: kyber_server_1.RawResponse,
                 schema: schemas_1.DefaultResponseSchema
             }
         ];
-        return _this;
     }
-    return PostCountriesSchematic;
-}(_1.GetCountriesSchematic));
+}
 exports.PostCountriesSchematic = PostCountriesSchematic;

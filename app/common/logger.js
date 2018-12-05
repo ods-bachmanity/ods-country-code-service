@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var winston = require("winston");
-var kyber_server_1 = require("kyber-server");
-var _a = winston.format, combine = _a.combine, timestamp = _a.timestamp, label = _a.label, printf = _a.printf;
-var path = require('path');
-var fs = require('fs');
-var myFormat = printf(function (info) {
+const winston = require("winston");
+const kyber_server_1 = require("kyber-server");
+const { combine, timestamp, label, printf } = winston.format;
+const path = require('path');
+const fs = require('fs');
+const myFormat = printf(info => {
     if (info.message && typeof info.message === 'object') {
         info.message = JSON.stringify(info.message);
     }
@@ -17,7 +17,7 @@ var myFormat = printf(function (info) {
         message: info.message
     });
 });
-var consoleFormat = printf(function (info) {
+const consoleFormat = printf(info => {
     if (info.message && typeof info.message === 'object') {
         info.message = JSON.stringify(info.message);
     }
@@ -29,8 +29,8 @@ var consoleFormat = printf(function (info) {
         message: info.message
     });
 });
-var Logger = (function () {
-    function Logger() {
+class Logger {
+    constructor() {
         this._winstonLogger = null;
         this._winstonLogger = winston.createLogger({
             level: 'info',
@@ -46,76 +46,75 @@ var Logger = (function () {
             }));
         }
     }
-    Logger.prototype.connect = function (kyber) {
-        var _this = this;
-        kyber.events.on(kyber_server_1.KyberServerEvents.ServerStarted, function (args) {
-            _this.info(args.correlationId, args, args.source);
+    connect(kyber) {
+        kyber.events.on(kyber_server_1.KyberServerEvents.ServerStarted, (args) => {
+            this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ProcessorStarted, function (args) {
-            _this.info(args.correlationId, args, args.source);
+        kyber.events.on(kyber_server_1.KyberServerEvents.ProcessorStarted, (args) => {
+            this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ProcessorEnded, function (args) {
-            _this.info(args.correlationId, args, args.source);
+        kyber.events.on(kyber_server_1.KyberServerEvents.ProcessorEnded, (args) => {
+            this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ActivityStarted, function (args) {
-            _this.info(args.correlationId, args, args.source);
+        kyber.events.on(kyber_server_1.KyberServerEvents.ActivityStarted, (args) => {
+            this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ActivityEnded, function (args) {
-            _this.info(args.correlationId, args, args.source);
+        kyber.events.on(kyber_server_1.KyberServerEvents.ActivityEnded, (args) => {
+            this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.GlobalSchematicError, function (args) {
-            _this.error(args.correlationId, args, args.source);
+        kyber.events.on(kyber_server_1.KyberServerEvents.GlobalSchematicError, (args) => {
+            this.error(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.BeginRequest, function (args) {
-            _this.info(args.correlationId, args, args.source);
+        kyber.events.on(kyber_server_1.KyberServerEvents.BeginRequest, (args) => {
+            this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.RouteHandlerException, function (args) {
-            _this.error(args.correlationId, args, args.source);
+        kyber.events.on(kyber_server_1.KyberServerEvents.RouteHandlerException, (args) => {
+            this.error(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ExecutionContextAfterLoadParameters, function (args) {
-            _this.info(args.correlationId, args, args.source);
+        kyber.events.on(kyber_server_1.KyberServerEvents.ExecutionContextAfterLoadParameters, (args) => {
+            this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.EndRequest, function (args) {
-            _this.info(args.correlationId, args, args.source);
+        kyber.events.on(kyber_server_1.KyberServerEvents.EndRequest, (args) => {
+            this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ServerStopping, function (args) {
-            _this.info(args.correlationId, args, args.source);
+        kyber.events.on(kyber_server_1.KyberServerEvents.ServerStopping, (args) => {
+            this.info(args.correlationId, args, args.source);
         });
-    };
-    Logger.prototype.log = function (id, message, source) {
+    }
+    log(id, message, source) {
         this._winstonLogger.info(this.logPayload(id, message, source));
-    };
-    Logger.prototype.info = function (id, message, source) {
+    }
+    info(id, message, source) {
         this._winstonLogger.info(this.logPayload(id, message, source));
-    };
-    Logger.prototype.error = function (id, message, source) {
+    }
+    error(id, message, source) {
         this._winstonLogger.error(this.logPayload(id, message, source));
-    };
-    Logger.prototype.warn = function (id, message, source) {
+    }
+    warn(id, message, source) {
         this._winstonLogger.warn(this.logPayload(id, message, source));
-    };
-    Logger.prototype.logPayload = function (id, message, source) {
+    }
+    logPayload(id, message, source) {
         return {
             message: message,
             source: source,
             correlationId: id,
             timestamp: new Date().toISOString()
         };
-    };
-    Logger.prototype.getDirectory = function (directorySubType) {
-        var theDate = new Date();
-        var targetFileName = theDate.getUTCDate() + "-" + this.getMonthName(theDate.getUTCMonth()) + "-" + theDate.getUTCFullYear() + "-" + directorySubType + ".log";
+    }
+    getDirectory(directorySubType) {
+        const theDate = new Date();
+        const targetFileName = `${theDate.getUTCDate()}-${this.getMonthName(theDate.getUTCMonth())}-${theDate.getUTCFullYear()}-${directorySubType}.log`;
         this.verifyTargetDirectory(path.join(process.cwd(), 'logs'));
-        var targetPath = path.join(process.cwd(), 'logs', targetFileName);
+        const targetPath = path.join(process.cwd(), 'logs', targetFileName);
         return targetPath;
-    };
-    Logger.prototype.verifyTargetDirectory = function (endpoint) {
+    }
+    verifyTargetDirectory(endpoint) {
         if (!fs.existsSync(endpoint)) {
-            console.log("Creating Logging Directory at: " + endpoint);
+            console.log(`Creating Logging Directory at: ${endpoint}`);
             fs.mkdirSync(endpoint);
         }
-    };
-    Logger.prototype.getMonthName = function (month) {
+    }
+    getMonthName(month) {
         switch (month) {
             case 0:
                 return 'JAN';
@@ -144,7 +143,6 @@ var Logger = (function () {
             default:
                 return 'UNK';
         }
-    };
-    return Logger;
-}());
+    }
+}
 exports.Logger = Logger;

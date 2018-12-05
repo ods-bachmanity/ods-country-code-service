@@ -1,47 +1,178 @@
 {
-	"info": {
-		"_postman_id": "bc368c3a-36c9-4a6c-8f75-ca0184f3e81c",
-	"name": "CountryCode",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Bad Endpoint",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 404\",function () {",
-							"      pm.response.to.have.status(404);",
+  "info": {
+    "_postman_id": "bc368c3a-36c9-4a6c-8f75-ca0184f3e81c",
+    "name": "CountryCode",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "testNumber",
+      "value": 0,
+      "type": "int"
+    },
+    {
+      "key": "requestBody",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "testNumber = pm.variables.get(\"testNumber\");",
+          "let testData = pm.iterationData.get(\"testData\")",
+          "let requestBody = JSON.stringify(testData[testNumber].requestBody)",
+          "++testNumber",
+          "pm.variables.set(\"testNumber\",testNumber);",
+          "pm.variables.set(\"requestBody\",requestBody);"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Bad Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\",function () {",
+              "      pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "url": "http://{{host}}/api/fuzzy",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {},
+        "description": "This request returns a successful response and performs assertions on expected content values"
+      },
+      "response": []
+    },
+    {
+      "name": "400 Error: Invalid WKT",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+							"pm.test(\"Status code is 400\",function () {",
+							"      pm.response.to.have.status(400);",
 							"});",
 							"",
-							"pm.test('check response with no errors', () => {",
-								"pm.response.to.have.status(404);",
-                "pm.response.to.have.header(\"Content-Type\");",
+							"pm.test(\"Expected Response\",function () {",
+							" errorResponse = pm.response.json()",
+							" testData = pm.iterationData.get(\"testData\")",
+								" console.log(testData[testNumber-1].testName)",
+							" expectedReponse = testData[testNumber-1].expectedReponse",
+							" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+							" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+							" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+							" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
 							"});",
 							""
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "http://{{host}}/api/fuzzy",
-				"method": "GET",
-				"header": [{
-					"key": "Content-Type",
-					"value": "application/json"
-				}],
-				"body": {},
-
-				"description": "This request returns a successful response and performs assertions on expected content values"
-			},
-			"response": []
-		},
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "400 Error: Missing required wkt for POST",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+            "type": "text/javascript",
+            "exec": [
+							"pm.test(\"Status code is 400\",function () {",
+							"      pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Expected Response\",function () {",
+							" errorResponse = pm.response.json()",
+							" testData = pm.iterationData.get(\"testData\")",
+								" console.log(testData[testNumber-1].testName)",
+							" expectedReponse = testData[testNumber-1].expectedReponse",
+							" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+							" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+							" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+							" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+							"});",
+							""
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{requestBody}}"
+        },
+        "url": {
+          "raw": "http://{{host}}/api/countries",
+          "protocol": "http",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "countries"
+          ]
+        }
+      },
+      "response": []
+    },
 		{
-			"name": "Bad Point Check",
+			"name": "400 Error: Empty JSON body",
 			"event": [
 				{
 					"listen": "test",
@@ -53,16 +184,17 @@
 							"      pm.response.to.have.status(400);",
 							"});",
 							"",
-              "pm.test(\"Check Bad Point Response \", function () {",
-                " errorResponse = pm.response.json()",
-                " testData = pm.iterationData.get(\"testData\")",
-                " expectedReponse = testData[1].expectedReponse",
-                " pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
-                " pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
-              	" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
-                " pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
-                "});",
-                ""
+							"pm.test(\"Expected Response\",function () {",
+							" errorResponse = pm.response.json()",
+							" testData = pm.iterationData.get(\"testData\")",
+								" console.log(testData[testNumber-1].testName)",
+							" expectedReponse = testData[testNumber-1].expectedReponse",
+							" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+							" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+							" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+							" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+							"});",
+							""
 						]
 					}
 				}
@@ -77,7 +209,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"wkt\":\"POINT(-89.45973)\"}\n"
+					"raw": "{{requestBody}}"
 				},
 				"url": {
 					"raw": "http://{{host}}/api/countries",
@@ -92,6 +224,493 @@
 				}
 			},
 			"response": []
-		}
-	]
+		},
+		{
+			"name": "400 Error: Content-Type application/xml",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 400\",function () {",
+							"      pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Expected Response\",function () {",
+							" errorResponse = pm.response.json()",
+							" testData = pm.iterationData.get(\"testData\")",
+								" console.log(testData[testNumber-1].testName)",
+							" expectedReponse = testData[testNumber-1].expectedReponse",
+							" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+							" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+							" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+							" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{requestBody}}"
+				},
+				"url": {
+					"raw": "http://{{host}}/api/countries",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "400 Error: Bad WKT GET",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 400\",function () {",
+							"      pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Expected Response\",function () {",
+							" errorResponse = pm.response.json()",
+							" testData = pm.iterationData.get(\"testData\")",
+						  		"console.log(testData[testNumber-1].testName)",
+							" expectedReponse = testData[testNumber-1].expectedReponse",
+							" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+							" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+							" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+							" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{host}}/api/countries?wkt=POINT(30 30)&wkt=POINT(20 20)",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"description": "This request returns a successful response and performs assertions on expected content values"
+			},
+			"response": []
+		},
+		{
+			"name": "404 Error:• GET /api/countrie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 404\",function () {",
+							"      pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Expected Response\",function () {",
+							" errorResponse = pm.response.json()",
+							" testData = pm.iterationData.get(\"testData\")",
+									"console.log(testData[testNumber-1].testName)",
+							" expectedReponse = testData[testNumber-1].expectedReponse",
+							" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+							" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+							" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+							" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{host}}/api/countrie",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"description": "This request returns a successful response and performs assertions on expected content values"
+			},
+			"response": []
+		},
+		{
+			"name": "404 Error:• POST /api/countrie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 404\",function () {",
+							"      pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Expected Response\",function () {",
+							" errorResponse = pm.response.json()",
+							" testData = pm.iterationData.get(\"testData\")",
+								" console.log(testData[testNumber-1].testName)",
+							" expectedReponse = testData[testNumber-1].expectedReponse",
+							" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+							" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+							" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+							" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{requestBody}}"
+				},
+				"url": {
+					"raw": "http://{{host}}/api/countrie/",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"countrie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 Error:• GET /api/countries/444",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 404\",function () {",
+							"      pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Expected Response\",function () {",
+							" errorResponse = pm.response.json()",
+							" testData = pm.iterationData.get(\"testData\")",
+									"console.log(testData[testNumber-1].testName)",
+							" expectedReponse = testData[testNumber-1].expectedReponse",
+							" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+							" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+							" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+							" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://{{host}}/api/countries/444",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"description": "This request returns a successful response and performs assertions on expected content values"
+			},
+			"response": []
+		},
+		{
+			"name": "404 Error:• POST /api/countries/444",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 404\",function () {",
+							"      pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Expected Response\",function () {",
+							" errorResponse = pm.response.json()",
+							" testData = pm.iterationData.get(\"testData\")",
+								" console.log(testData[testNumber-1].testName)",
+							" expectedReponse = testData[testNumber-1].expectedReponse",
+							" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+							" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+							" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+							" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{requestBody}}"
+				},
+				"url": {
+					"raw": "http://{{host}}/api/countries/444",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"countries",
+								"444"
+					]
+				}
+			},
+			"response": []
+		},		{
+					"name": "404 Error:• GET /countries",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 404\",function () {",
+									"      pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"Expected Response\",function () {",
+									" errorResponse = pm.response.json()",
+									" testData = pm.iterationData.get(\"testData\")",
+											"console.log(testData[testNumber-1].testName)",
+									" expectedReponse = testData[testNumber-1].expectedReponse",
+									" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+									" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+									" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+									" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://{{host}}/countries",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"description": "This request returns a successful response and performs assertions on expected content values"
+					},
+					"response": []
+				},
+				{
+					"name": "404 Error:• POST /countries",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 404\",function () {",
+									"      pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Expected Response\",function () {",
+									" errorResponse = pm.response.json()",
+									" testData = pm.iterationData.get(\"testData\")",
+										" console.log(testData[testNumber-1].testName)",
+									" expectedReponse = testData[testNumber-1].expectedReponse",
+									" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+									" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+									" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+									" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{requestBody}}"
+						},
+						"url": {
+							"raw": "http://{{host}}/countries",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Error:• PUT /api/countries",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 404\",function () {",
+									"      pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Expected Response\",function () {",
+									" errorResponse = pm.response.json()",
+									" testData = pm.iterationData.get(\"testData\")",
+										" console.log(testData[testNumber-1].testName)",
+									" expectedReponse = testData[testNumber-1].expectedReponse",
+									" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+									" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+									" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+									" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{requestBody}}"
+						},
+						"url": {
+							"raw": "http://{{host}}/api/countries",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "500 Error:• Bad JSON Syntax",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b368fb0-0268-4c8a-974e-bc10439be682",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 500\",function () {",
+									"      pm.response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Expected Response\",function () {",
+									" errorResponse = pm.response.json()",
+									" testData = pm.iterationData.get(\"testData\")",
+										" console.log(testData[testNumber-1].testName)",
+									" expectedReponse = testData[testNumber-1].expectedReponse",
+									" pm.expect(errorResponse.code).to.equal(expectedReponse.code);",
+									" pm.expect(errorResponse.message).to.equal(expectedReponse.message);",
+									" pm.expect(errorResponse.errors).to.have.deep.members(expectedReponse.errors);",
+									" pm.expect(errorResponse.warnings).to.have.deep.members(expectedReponse.warnings);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{requestBody}}"
+						},
+						"url": {
+							"raw": "http://{{host}}/api/countries",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"countries"
+							]
+						}
+					},
+					"response": []
+				}
+  ]
 }

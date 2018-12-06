@@ -13,7 +13,7 @@
   "paths": {
     "/api/health": {
       "get": {
-        "description": "Health check endpoint",
+        "description": "Health check endpoint to verify the application is in service.",
         "responses": {
           "200": {
             "description": "Service is currently running and can connect to the target database.",
@@ -21,15 +21,18 @@
               "application/json": {
                 "schema": {
                   "properties": {
-                    "oracleServerVersion": {
-                      "type": "integer"
-                    },
-                    "oracleServerVersionString": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    }
+                     "HealthCheck": {
+         "type": "string",
+         "example": "OK"
+      },
+      "Message": {
+         "type": "string",
+         "example": "No Rest for Old Men"
+      },
+      "Database": {
+         "type": "string",
+         "example": "Oracle 12.1.0.2.0"
+      }
                   }
                 },
                 "examples": {
@@ -42,18 +45,15 @@
           }
         }
       }
-    }, "/api/countries?{param}": {
+    }, "/api/countries{param}": {
       "get": {
-        "description": "Returns country codes based on wkt point, line,multi-line, or polygon found in URL params </br> </br>Example:</br> /countries?wkt=POINT(30 30)",    "required": [
-      "wkt"
-   ],
+        "description": "Returns country codes based on wkt point, line,multi-line, or polygon found in URL params </br> </br>Example:</br> /countries?wkt=POINT(30 30)",
       "parameters": [{
                     "description": "The users request provided by a URL param. ",
                     "name": "param",
                     "in": "path",
                     "required": true,
-                    "type": "string",
-                    "example":"wkt=POINT(30 30)"
+                    "schema":{}
                 } ],
         "responses": {
           "200": {
@@ -62,13 +62,47 @@
               "application/json": {
                 "schema": {
                   "properties": {
-                    "oracleServerVersion": {
+                    "metaData": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "code": {
                       "type": "integer"
                     },
-                    "oracleServerVersionString": {
-                      "type": "string"
+                    "rowCount": {
+                      "type": "integer"
                     },
-                    "status": {
+                    "rows": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "OBJECTID": {
+                            "type": "integer"
+                          },
+                          "COUNTRY": {
+                            "type": "string"
+                          },
+                          "GENC_NUM": {
+                            "type": "string"
+                          },
+                          "GENC_2": {
+                            "type": "string"
+                          },
+                          "GENC_3": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "message": {
                       "type": "string"
                     }
                   }
@@ -83,7 +117,7 @@
           }
         }
       }
-    },,
+    },
     "/api/countries": {
       "get": {
         "description": "List all avaliable countries",

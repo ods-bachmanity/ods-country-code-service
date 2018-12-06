@@ -85,4 +85,5 @@ function startup() {
         }
     });
 }
+;
 startup();

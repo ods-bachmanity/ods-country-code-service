@@ -37,8 +37,7 @@
                 },
                 "examples": {
                   "0": {
-                    "value": "{\"oracleServerVersionString\":\"12.1.0.2.0\",\"oracleServerVersion\":1201000200,\"status\":\"System OK\"}"
-                  }
+                    "value": "{\"HealthCheck\":\"OK\",\"Message\":\"No Rest for Old Men\",\"Database\":\"Oracle 12.1.0.2.0\"}"
                 }
               }
             }
@@ -105,11 +104,6 @@
                     "message": {
                       "type": "string"
                     }
-                  }
-                },
-                "examples": {
-                  "0": {
-                    "value": "{\"oracleServerVersionString\":\"12.1.0.2.0\",\"oracleServerVersion\":1201000200,\"status\":\"System OK\"}"
                   }
                 }
               }

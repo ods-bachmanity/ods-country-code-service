@@ -3,7 +3,7 @@
   "info": {
     "title": "Country Code Service API",
     "description": "Team Bachmanity Country Code Service API Documentation",
-    "version": "0.0.3"
+    "version": "0.0.6"
   },
   "servers": [
     {
@@ -16,47 +16,129 @@
         "description": "Health check endpoint to verify the application is in service.",
         "responses": {
           "200": {
-            "description": "Service is currently running and can connect to the target database.",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "properties": {
-                     "HealthCheck": {
-         "type": "string",
-         "example": "OK"
-      },
-      "Message": {
-         "type": "string",
-         "example": "No Rest for Old Men"
-      },
-      "Database": {
-         "type": "string",
-         "example": "Oracle 12.1.0.2.0"
-      }
+                    "HealthCheck": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "Message": {
+                      "type": "string",
+                      "example": "No Rest for Old Men"
+                    },
+                    "Database": {
+                      "type": "string",
+                      "example": "Oracle 12.1.0.2.0"
+                    }
                   }
                 },
                 "examples": {
                   "0": {
                     "value": "{\"HealthCheck\":\"OK\",\"Message\":\"No Rest for Old Men\",\"Database\":\"Oracle 12.1.0.2.0\"}"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Request Timed Out",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "code",
+                    "message",
+                    "correlationId",
+                    "errors",
+                    "warnings"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "code",
+                    "message",
+                    "correlationId",
+                    "errors",
+                    "warnings"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
         }
       }
-    }, "/api/countries{param}": {
+    },
+    "/api/countries?wkt={wktParam}": {
       "get": {
         "description": "Returns country codes based on wkt point, line,multi-line, or polygon found in URL params </br> </br>Example:</br> /countries?wkt=POINT(30 30)",
-      "parameters": [{
-                    "description": "The users request provided by a URL param. ",
-                    "name": "param",
-                    "in": "path",
-                    "required": true,
-                    "schema":{}
-                } ],
+        "parameters": [
+          {
+            "description": "Properly formed WKT string.",
+            "name": "wktParam",
+            "in": "path",
+            "required": false,
+            "schema":{}
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Service is currently running and can connect to the target database.",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -103,6 +185,126 @@
                     },
                     "message": {
                       "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "code",
+                    "message",
+                    "correlationId",
+                    "errors",
+                    "warnings"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Request Timed Out",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "code",
+                    "message",
+                    "correlationId",
+                    "errors",
+                    "warnings"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "code",
+                    "message",
+                    "correlationId",
+                    "errors",
+                    "warnings"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
                     }
                   }
                 }
@@ -117,7 +319,7 @@
         "description": "List all avaliable countries",
         "responses": {
           "200": {
-            "description": "Auto generated using Swagger Inspector",
+            "description": "List all available countries",
             "content": {
               "application/json": {
                 "schema": {
@@ -164,12 +366,93 @@
                     },
                     "message": {
                       "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
                     }
                   }
                 },
                 "examples": {
                   "0": {
                     "value": "{\"metaData\":[{\"name\":\"OBJECTID\"},{\"name\":\"GENC_2\"},{\"name\":\"GENC_3\"},{\"name\":\"GENC_NUM\"},{\"name\":\"COUNTRY\"}],\"rows\":[{\"OBJECTID\":209,\"GENC_2\":\"US\",\"GENC_3\":\"USA\",\"GENC_NUM\":\"840\",\"COUNTRY\":\"United States\"}],\"code\":0,\"message\":\"OK\",\"rowCount\":1}"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Request Timed Out",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "code",
+                    "message",
+                    "correlationId",
+                    "errors",
+                    "warnings"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unhandled Exception in service",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "code",
+                    "message",
+                    "correlationId",
+                    "errors",
+                    "warnings"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               }
@@ -244,6 +527,9 @@
                     },
                     "message": {
                       "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
                     }
                   }
                 },
@@ -256,7 +542,7 @@
             }
           },
           "400": {
-            "description": "Error in Country Code Service",
+            "description": "Invalid Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -373,7 +659,7 @@
             }
           },
           "500": {
-            "description": "Unhandled Exception in service",
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {

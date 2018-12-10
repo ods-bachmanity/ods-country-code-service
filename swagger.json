@@ -7,103 +7,34 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080"
+      "url": "/"
     }
   ],
   "paths": {
     "/api/health": {
       "get": {
-        "description": "Health check endpoint to verify the application is in service.",
+        "description": "Health check endpoint",
         "responses": {
           "200": {
-            "description": "Service is currently running and can connect to the target database.",
+            "description": "Auto generated using Swagger Inspector",
             "content": {
               "application/json": {
                 "schema": {
                   "properties": {
-                     "HealthCheck": {
-         "type": "string",
-         "example": "OK"
-      },
-      "Message": {
-         "type": "string",
-         "example": "No Rest for Old Men"
-      },
-      "Database": {
-         "type": "string",
-         "example": "Oracle 12.1.0.2.0"
-      }
+                    "oracleServerVersion": {
+                      "type": "integer"
+                    },
+                    "oracleServerVersionString": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
                   }
                 },
                 "examples": {
                   "0": {
-                    "value": "{\"HealthCheck\":\"OK\",\"Message\":\"No Rest for Old Men\",\"Database\":\"Oracle 12.1.0.2.0\"}"
-                }
-              }
-            }
-          }
-        }
-      }
-    }, "/api/countries{param}": {
-      "get": {
-        "description": "Returns country codes based on wkt point, line,multi-line, or polygon found in URL params </br> </br>Example:</br> /countries?wkt=POINT(30 30)",
-      "parameters": [{
-                    "description": "The users request provided by a URL param. ",
-                    "name": "param",
-                    "in": "path",
-                    "required": true,
-                    "schema":{}
-                } ],
-        "responses": {
-          "200": {
-            "description": "Service is currently running and can connect to the target database.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "metaData": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    },
-                    "code": {
-                      "type": "integer"
-                    },
-                    "rowCount": {
-                      "type": "integer"
-                    },
-                    "rows": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "OBJECTID": {
-                            "type": "integer"
-                          },
-                          "COUNTRY": {
-                            "type": "string"
-                          },
-                          "GENC_NUM": {
-                            "type": "string"
-                          },
-                          "GENC_2": {
-                            "type": "string"
-                          },
-                          "GENC_3": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    },
-                    "message": {
-                      "type": "string"
-                    }
+                    "value": "{\"oracleServerVersionString\":\"12.1.0.2.0\",\"oracleServerVersion\":1201000200,\"status\":\"System OK\"}"
                   }
                 }
               }
@@ -178,7 +109,7 @@
         }
       },
       "post": {
-        "description": "Returns country codes based on wkt point, line,multi-line, or polygon as defined in request body.",
+        "description": "Returns country codes based on wkt point, line, or polygon.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -189,15 +120,17 @@
                   }
                 }
               },
-              "example": {
-                "wkt": "POINT(-98.323132 31.500500)"
+              "examples": {
+                "0": {
+                  "value": "{ \"wkt\": \"POINT(-98.323132 31.500500)\"}"
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Auto generated using Swagger Inspector",
             "content": {
               "application/json": {
                 "schema": {
@@ -250,162 +183,6 @@
                 "examples": {
                   "0": {
                     "value": "{\"metaData\":[{\"name\":\"OBJECTID\"},{\"name\":\"GENC_2\"},{\"name\":\"GENC_3\"},{\"name\":\"GENC_NUM\"},{\"name\":\"COUNTRY\"}],\"rows\":[{\"OBJECTID\":209,\"GENC_2\":\"US\",\"GENC_3\":\"USA\",\"GENC_NUM\":\"840\",\"COUNTRY\":\"United States\"}],\"code\":0,\"message\":\"OK\",\"rowCount\":1}"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error in Country Code Service",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "required": [
-                    "code",
-                    "message",
-                    "correlationId",
-                    "errors",
-                    "warnings"
-                  ],
-                  "properties": {
-                    "code": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "correlationId": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "warnings": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Unable to locate path",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "required": [
-                    "code",
-                    "message",
-                    "correlationId",
-                    "errors",
-                    "warnings"
-                  ],
-                  "properties": {
-                    "code": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "correlationId": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "warnings": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "408": {
-            "description": "Request Timed Out",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "required": [
-                    "code",
-                    "message",
-                    "correlationId",
-                    "errors",
-                    "warnings"
-                  ],
-                  "properties": {
-                    "code": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "correlationId": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "warnings": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unhandled Exception in service",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "required": [
-                    "code",
-                    "message",
-                    "correlationId",
-                    "errors",
-                    "warnings"
-                  ],
-                  "properties": {
-                    "code": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "correlationId": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "warnings": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
                   }
                 }
               }

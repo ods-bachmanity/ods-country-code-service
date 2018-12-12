@@ -16,7 +16,7 @@
   "dependencies": {
     "config": "^2.0.1",
     "dotenv": "^6.1.0",
-    "kyber-server": "0.0.10",
+    "kyber-server": "0.0.11",
     "lodash": "^4.17.11",
     "oracledb": "^3.0.0",
     "winston": "^3.1.0"

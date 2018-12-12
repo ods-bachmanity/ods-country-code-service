@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/api/health": {
+    "/v2/ods/countrycode/health": {
       "get": {
         "description": "Health check endpoint to verify the application is in service.",
         "responses": {
@@ -124,7 +124,7 @@
         }
       }
     },
-    "/api/countries?wkt={wktParam}": {
+    "/v2/ods/countrycode/countries?wkt={wktParam}": {
       "get": {
         "description": "Returns country codes based on wkt point, line,multi-line, or polygon found in URL params </br> </br>Example:</br> /countries?wkt=POINT(30 30)",
         "parameters": [
@@ -314,7 +314,7 @@
         }
       }
     },
-    "/api/countries": {
+    "/v2/ods/countrycode/countries": {
       "get": {
         "description": "List all avaliable countries",
         "responses": {

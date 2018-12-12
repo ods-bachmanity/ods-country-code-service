@@ -1,6 +1,6 @@
 {
   "name": "ods-country-code-lookup",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Lookup any countries whose SHAPE, defined by boundaries, interacts with a provided WKT SHAPE e.g. What countries interact with the WKT shape I provided?",
   "main": "index.js",
   "scripts": {

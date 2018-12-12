@@ -3,6 +3,7 @@ import * as config from 'config'
 import { HealthCheckGetSchematic, GetCountriesSchematic, PostCountriesSchematic, CountryCodeServiceSchematic } from './schematics'
 import { DataProvider, Logger } from './common'
 
+// Stand up Express Server Common Framework
 const kyber = new KyberServer({
     port: config.port
 })
@@ -19,12 +20,21 @@ kyber.registerGlobalSchematic(
             name: 'dataProvider',
             instanceOfType: dataProvider
         }
-    ])
+    ]
+)
 
-// GET /api/health
+// Handle Shutdown Event gracefully. Close database connection
+kyber.events.on(KyberServerEvents.ServerStopping, () => {
+    console.log(`\nServer Stopping...`)
+    if (dataProvider) {
+        dataProvider.shutdown()
+    }
+})
+    
+// GET /v2/ods/countrycode/health
 kyber.registerRoute({
     verb: 'GET',
-    path: '/api/health',
+    path: '/v2/ods/countrycode/health',
     schematic: HealthCheckGetSchematic,
     sharedResources: [
         {
@@ -34,17 +44,10 @@ kyber.registerRoute({
     ]
 })
 
-kyber.events.on(KyberServerEvents.ServerStopping, () => {
-    console.log(`\nServer Stopping...`)
-    if (dataProvider) {
-        dataProvider.shutdown()
-    }
-})
-
-// GET /api/countries
+// GET /v2/ods/countrycode/countries
 kyber.registerRoute({
     verb: 'GET',
-    path: '/api/countries',
+    path: '/v2/ods/countrycode/countries',
     schematic: GetCountriesSchematic,
     sharedResources: [
         {
@@ -54,10 +57,10 @@ kyber.registerRoute({
     ]
 })
 
-// POST /api/countries
+// POST /v2/ods/countrycode/countries
 kyber.registerRoute({
     verb: 'POST',
-    path: '/api/countries',
+    path: '/v2/ods/countrycode/countries',
     schematic: PostCountriesSchematic,
     sharedResources: [
         {

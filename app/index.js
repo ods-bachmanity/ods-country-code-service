@@ -23,17 +23,6 @@ kyber.registerGlobalSchematic(schematics_1.CountryCodeServiceSchematic, [
         instanceOfType: dataProvider
     }
 ]);
-kyber.registerRoute({
-    verb: 'GET',
-    path: '/api/health',
-    schematic: schematics_1.HealthCheckGetSchematic,
-    sharedResources: [
-        {
-            name: 'dataProvider',
-            instanceOfType: dataProvider
-        }
-    ]
-});
 kyber.events.on(kyber_server_1.KyberServerEvents.ServerStopping, () => {
     console.log(`\nServer Stopping...`);
     if (dataProvider) {
@@ -42,7 +31,18 @@ kyber.events.on(kyber_server_1.KyberServerEvents.ServerStopping, () => {
 });
 kyber.registerRoute({
     verb: 'GET',
-    path: '/api/countries',
+    path: '/v2/ods/countrycode/health',
+    schematic: schematics_1.HealthCheckGetSchematic,
+    sharedResources: [
+        {
+            name: 'dataProvider',
+            instanceOfType: dataProvider
+        }
+    ]
+});
+kyber.registerRoute({
+    verb: 'GET',
+    path: '/v2/ods/countrycode/countries',
     schematic: schematics_1.GetCountriesSchematic,
     sharedResources: [
         {
@@ -53,7 +53,7 @@ kyber.registerRoute({
 });
 kyber.registerRoute({
     verb: 'POST',
-    path: '/api/countries',
+    path: '/v2/ods/countrycode/countries',
     schematic: schematics_1.PostCountriesSchematic,
     sharedResources: [
         {

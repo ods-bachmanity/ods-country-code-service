@@ -35,7 +35,7 @@ There are multiple service endpoints provided.
 | `/v2/ods/countrycode/countries` | GET | NONE | This version of the api returns the total list of countries from the database along with GENC2 and GENC3 |
 | `/v2/ods/countrycode/countries` | GET | ?wkt=WKTSTRING | Where WKTSTRING is any valid WKT string beginning with POINT, LINESTRING, MULTILINESTRING or POLYGON. Will return only those countries whose area interacts with the provided WKT parameter. |
 | `/v2/ods/countrycode/countries` | POST | Provide a `wkt` parameter in the Request body. | Functionality is the same as GET verb above with `wkt` parameter provided. |
-| `/api/health` | GET | NONE | Provides a `ping` 200 response if the service is running smoothly. Includes a database connection verification step. |
+| `/v2/ods/countrycode/health` | GET | NONE | Provides a `ping` 200 response if the service is running smoothly. Includes a database connection verification step. |
 
 All endpoints assume `Content-Type: application/json`
 

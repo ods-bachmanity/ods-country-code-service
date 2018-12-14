@@ -142,13 +142,13 @@ The following snippet reflects an example of how one would define a request/post
       "raw": "{{requestBody}}"
     },
     "url": {
-      "raw": "http://{{host}}/api/countries",
+      "raw": "http://{{host}}/v2/ods/countrycode/countries",
       "protocol": "http",
       "host": [
         "{{host}}"
       ],
       "path": [
-        "api",
+      "v2","ods","countrycode",
         "countries"
       ]
     }

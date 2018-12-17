@@ -89,26 +89,26 @@
         }
       },
       {
-        "testName": "404 Error: GET /v2/ods/countrycode/countries",
+        "testName": "404 Error: GET /v2/ods/countrycode/countrie",
         "testNumber": 6,
         "requestBody": {},
         "expectedReponse": {
           "code": -1,
-          "message": "Unable to locate path /v2/ods/countrycode/countries",
+          "message": "Unable to locate path /v2/ods/countrycode/countrie",
           "correlationId": "09b80846-7e73-43fc-8b24-e138f7268652",
           "errors": [
-            "Unable to locate path /v2/ods/countrycode/countries"
+            "Unable to locate path /v2/ods/countrycode/countrie"
           ],
           "warnings": []
         }
       },
       {
-        "testName": "404 Error: POST /v2/ods/countrycode/countries",
+        "testName": "404 Error: POST /v2/ods/countrycode/countrie",
         "testNumber": 7,
         "requestBody": {},
         "expectedReponse": {
           "code": -1,
-          "message": "Unable to locate path /v2/ods/countrycode/countries",
+          "message": "Unable to locate path /v2/ods/countrycode/countrie",
           "correlationId": "b3eadfc7-782d-421a-bd22-ea31eceae3d2",
           "errors": [
             "Unable to locate path /v2/ods/countrycode/countrie"

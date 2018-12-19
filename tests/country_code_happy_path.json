@@ -34,7 +34,7 @@
   ],
   "item": [
     {
-      "name": "http://{{host}}/api/health",
+      "name": "http://{{host}}/vs/ods/countrycode/health",
       "event": [
         {
           "listen": "test",
@@ -56,7 +56,7 @@
         }
       ],
       "request": {
-        "url": "http://{{host}}/api/health",
+        "url": "http://{{host}}/v2/ods/countrycode/health",
         "method": "GET",
         "header": [
           {
@@ -105,13 +105,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -154,13 +156,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -203,13 +207,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -252,13 +258,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -301,13 +309,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -350,13 +360,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -399,13 +411,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -448,13 +462,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -497,13 +513,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -546,13 +564,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -595,13 +615,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -644,13 +666,15 @@
           "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }
@@ -690,16 +714,18 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{}"
+          "raw": "{{requestBody}}"
         },
         "url": {
-          "raw": "http://{{host}}/api/countries",
+          "raw": "http://{{host}}/v2/ods/countrycode/countries",
           "protocol": "http",
           "host": [
             "{{host}}"
           ],
           "path": [
-            "api",
+            "v2",
+            "ods",
+            "countrycode",
             "countries"
           ]
         }

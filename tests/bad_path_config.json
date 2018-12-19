@@ -89,57 +89,57 @@
         }
       },
       {
-        "testName": "404 Error: GET /api/countrie",
+        "testName": "404 Error: GET /v2/ods/countrycode/countrie",
         "testNumber": 6,
         "requestBody": {},
         "expectedReponse": {
           "code": -1,
-          "message": "Unable to locate path /api/countrie",
+          "message": "Unable to locate path /v2/ods/countrycode/countrie",
           "correlationId": "09b80846-7e73-43fc-8b24-e138f7268652",
           "errors": [
-            "Unable to locate path /api/countrie"
+            "Unable to locate path /v2/ods/countrycode/countrie"
           ],
           "warnings": []
         }
       },
       {
-        "testName": "404 Error: POST /api/countrie",
+        "testName": "404 Error: POST /v2/ods/countrycode/countrie",
         "testNumber": 7,
         "requestBody": {},
         "expectedReponse": {
           "code": -1,
-          "message": "Unable to locate path /api/countrie",
+          "message": "Unable to locate path /v2/ods/countrycode/countrie",
           "correlationId": "b3eadfc7-782d-421a-bd22-ea31eceae3d2",
           "errors": [
-            "Unable to locate path /api/countrie"
+            "Unable to locate path /v2/ods/countrycode/countrie"
           ],
           "warnings": []
         }
       },
       {
-        "testName": "404 Error: GET /api/countries/444",
+        "testName": "404 Error: GET /v2/ods/countrycode/countries/444",
         "testNumber": 8,
         "requestBody": {},
         "expectedReponse": {
           "code": -1,
-          "message": "Unable to locate path /api/countries/444",
+          "message": "Unable to locate path /v2/ods/countrycode/countries/444",
           "correlationId": "09b80846-7e73-43fc-8b24-e138f7268652",
           "errors": [
-            "Unable to locate path /api/countries/444"
+            "Unable to locate path /v2/ods/countrycode/countries/444"
           ],
           "warnings": []
         }
       },
       {
-        "testName": "404 Error: POST /api/countries/444",
+        "testName": "404 Error: POST /v2/ods/countrycode/countries/444",
         "testNumber": 9,
         "requestBody": {},
         "expectedReponse": {
           "code": -1,
-          "message": "Unable to locate path /api/countries/444",
+          "message": "Unable to locate path /v2/ods/countrycode/countries/444",
           "correlationId": "b3eadfc7-782d-421a-bd22-ea31eceae3d2",
           "errors": [
-            "Unable to locate path /api/countries/444"
+            "Unable to locate path /v2/ods/countrycode/countries/444"
           ],
           "warnings": []
         }
@@ -173,17 +173,17 @@
         }
       },
       {
-        "testName": "404 Error: PUT /api/countries",
+        "testName": "404 Error: PUT /v2/ods/countrycode/countries",
         "testNumber": 12,
         "requestBody": {
           "wkt": "POINT(30 30)"
         },
         "expectedReponse": {
           "code": -1,
-          "message": "Unable to locate path /api/countries",
+          "message": "Unable to locate path /v2/ods/countrycode/countries",
           "correlationId": "7c4e8810-bd32-46d0-a3e7-298b64a922ce",
           "errors": [
-            "Unable to locate path /api/countries"
+            "Unable to locate path /v2/ods/countrycode/countries"
           ],
           "warnings": []
         }
@@ -194,9 +194,9 @@
         "requestBody":"{]",
         "expectedReponse": {
     "code": -1,
-    "message": "Unhandled Exception in service: /api/countries: SyntaxError: Unexpected token \" in JSON at position 0",
+    "message": "Unhandled Exception in service: /v2/ods/countrycode/countries: SyntaxError: Unexpected token \" in JSON at position 0",
     "errors": [
-        "Unhandled Exception in service: /api/countries: SyntaxError: Unexpected token \" in JSON at position 0"
+        "Unhandled Exception in service: /v2/ods/countrycode/countries: SyntaxError: Unexpected token \" in JSON at position 0"
     ],
     "warnings": []
 }

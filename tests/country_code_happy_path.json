@@ -34,7 +34,7 @@
   ],
   "item": [
     {
-      "name": "http://{{host}}/vs/ods/countrycode/health",
+      "name": "http://{{host}}/v2/ods/countrycode/health",
       "event": [
         {
           "listen": "test",

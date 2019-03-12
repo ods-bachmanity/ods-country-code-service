@@ -51,6 +51,9 @@ class DefaultResponseSchema extends kyber_server_1.SchemaDef {
             },
             correlationId: {
                 type: 'string'
+            },
+            ODS: {
+                type: JSON
             }
         };
     }

@@ -48,6 +48,9 @@ export class DefaultResponseSchema extends SchemaDef {
         },
         correlationId: {
             type: 'string'
+        },
+        ODS: {
+            type: JSON
         }
     }
 }

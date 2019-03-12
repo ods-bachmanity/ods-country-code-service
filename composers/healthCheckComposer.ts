@@ -1,4 +1,5 @@
-import { BaseProcessor, ProcessorResponse } from 'kyber-server'
+import { BaseProcessor, ProcessorResponse } from 'kyber-server';
+import { getODSProcessorJSONResponse } from '../common/utilities';
 
 export class HealthCheckComposer extends BaseProcessor {
 
@@ -6,6 +7,7 @@ export class HealthCheckComposer extends BaseProcessor {
         
         const result: Promise<ProcessorResponse> = new Promise(async(resolve, reject) => {
             
+            const { npm_package_version, npm_package_lastupdated } = process.env;
             try {
                 const db = this.executionContext.getSharedResource('dataProvider')
                 const connection = await db.getConnection()
@@ -24,10 +26,12 @@ export class HealthCheckComposer extends BaseProcessor {
                             httpStatus: 400
                         })
                     }
+
                     this.executionContext.raw = Object.assign({}, {
                         HealthCheck: `OK`,
-                        Message: `No Rest for Old Men`,
-                        Database: `Oracle ${connection.oracleServerVersionString}`
+                        Message: `Country Code Service is Available`,
+                        Database: `Oracle ${connection.oracleServerVersionString}`,
+                        ODS: getODSProcessorJSONResponse(npm_package_version, npm_package_lastupdated) 
                     })
                     connection.close()
                     return resolve({

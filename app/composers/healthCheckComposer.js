@@ -9,9 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const kyber_server_1 = require("kyber-server");
+const utilities_1 = require("../common/utilities");
 class HealthCheckComposer extends kyber_server_1.BaseProcessor {
     fx(args) {
         const result = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            const { npm_package_version, npm_package_lastupdated } = process.env;
             try {
                 const db = this.executionContext.getSharedResource('dataProvider');
                 const connection = yield db.getConnection();
@@ -32,8 +34,9 @@ class HealthCheckComposer extends kyber_server_1.BaseProcessor {
                     }
                     this.executionContext.raw = Object.assign({}, {
                         HealthCheck: `OK`,
-                        Message: `No Rest for Old Men`,
-                        Database: `Oracle ${connection.oracleServerVersionString}`
+                        Message: `Country Code Service is Available`,
+                        Database: `Oracle ${connection.oracleServerVersionString}`,
+                        ODS: utilities_1.getODSProcessorJSONResponse(npm_package_version, npm_package_lastupdated)
                     });
                     connection.close();
                     return resolve({

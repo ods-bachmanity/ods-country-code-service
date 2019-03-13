@@ -1,5 +1,5 @@
 import { BaseProcessor, ProcessorResponse } from 'kyber-server'
-import { getODSProcessorJSONResponse } from '../common/utilities';
+import { Utilities } from '../common/utilities';
 
 export class GetCountriesComposer extends BaseProcessor {
 
@@ -8,7 +8,7 @@ export class GetCountriesComposer extends BaseProcessor {
         const result: Promise<ProcessorResponse> = new Promise(async(resolve, reject) => {
             
             try {
-                const { npm_package_version, npm_package_lastupdated, ORA_SHAPE_TABLE_NAME, ORA_SHAPE_TABLE_OWNER, ORA_COLUMN_LIST, ORA_SHAPE_COLUMN_NAME, ORA_SHAPE_SRID } = process.env;
+                const { ORA_SHAPE_TABLE_NAME, ORA_SHAPE_TABLE_OWNER, ORA_COLUMN_LIST, ORA_SHAPE_COLUMN_NAME, ORA_SHAPE_SRID } = process.env;
                 const testWkt = this.executionContext.getParameterValue('wkt')
                 let sqlArgs = []
                 const db = this.executionContext.getSharedResource('dataProvider')
@@ -48,7 +48,7 @@ export class GetCountriesComposer extends BaseProcessor {
                         oracleResponse.correlationId = this.executionContext.correlationId
                         
                         this.executionContext.raw = Object.assign({}, oracleResponse)
-                        this.executionContext.raw.ODS =  getODSProcessorJSONResponse(npm_package_version, npm_package_lastupdated);
+                        this.executionContext.raw.ODS =  Utilities.getOdsProcessorJSON();
                         return resolve({
                             successful: true,
                             data: {

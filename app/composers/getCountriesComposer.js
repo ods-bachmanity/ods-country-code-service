@@ -14,7 +14,7 @@ class GetCountriesComposer extends kyber_server_1.BaseProcessor {
     fx(args) {
         const result = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const { npm_package_version, npm_package_lastupdated, ORA_SHAPE_TABLE_NAME, ORA_SHAPE_TABLE_OWNER, ORA_COLUMN_LIST, ORA_SHAPE_COLUMN_NAME, ORA_SHAPE_SRID } = process.env;
+                const { ORA_SHAPE_TABLE_NAME, ORA_SHAPE_TABLE_OWNER, ORA_COLUMN_LIST, ORA_SHAPE_COLUMN_NAME, ORA_SHAPE_SRID } = process.env;
                 const testWkt = this.executionContext.getParameterValue('wkt');
                 let sqlArgs = [];
                 const db = this.executionContext.getSharedResource('dataProvider');
@@ -49,7 +49,7 @@ class GetCountriesComposer extends kyber_server_1.BaseProcessor {
                     oracleResponse.message = 'OK';
                     oracleResponse.correlationId = this.executionContext.correlationId;
                     this.executionContext.raw = Object.assign({}, oracleResponse);
-                    this.executionContext.raw.ODS = utilities_1.getODSProcessorJSONResponse(npm_package_version, npm_package_lastupdated);
+                    this.executionContext.raw.ODS = utilities_1.Utilities.getOdsProcessorJSON();
                     return resolve({
                         successful: true,
                         data: {

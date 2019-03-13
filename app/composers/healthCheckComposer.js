@@ -36,7 +36,7 @@ class HealthCheckComposer extends kyber_server_1.BaseProcessor {
                         HealthCheck: `OK`,
                         Message: `Country Code Service is Available`,
                         Database: `Oracle ${connection.oracleServerVersionString}`,
-                        ODS: utilities_1.getODSProcessorJSONResponse(npm_package_version, npm_package_lastupdated)
+                        ODS: utilities_1.Utilities.getOdsProcessorJSON(),
                     });
                     connection.close();
                     return resolve({

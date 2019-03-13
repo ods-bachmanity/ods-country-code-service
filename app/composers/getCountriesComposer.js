@@ -9,10 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const kyber_server_1 = require("kyber-server");
+const utilities_1 = require("../common/utilities");
 class GetCountriesComposer extends kyber_server_1.BaseProcessor {
     fx(args) {
         const result = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
+                const { npm_package_version, npm_package_lastupdated, ORA_SHAPE_TABLE_NAME, ORA_SHAPE_TABLE_OWNER, ORA_COLUMN_LIST, ORA_SHAPE_COLUMN_NAME, ORA_SHAPE_SRID } = process.env;
                 const testWkt = this.executionContext.getParameterValue('wkt');
                 let sqlArgs = [];
                 const db = this.executionContext.getSharedResource('dataProvider');
@@ -24,12 +26,12 @@ class GetCountriesComposer extends kyber_server_1.BaseProcessor {
                         httpStatus: 500
                     });
                 }
-                let sql = `SELECT ${process.env.ORA_COLUMN_LIST} 
-                FROM ${process.env.ORA_SHAPE_TABLE_OWNER}.${process.env.ORA_SHAPE_TABLE_NAME} W `;
+                let sql = `SELECT ${ORA_COLUMN_LIST} 
+                FROM ${ORA_SHAPE_TABLE_OWNER}.${ORA_SHAPE_TABLE_NAME} W `;
                 if (testWkt) {
                     sql += `WHERE SDO_ANYINTERACT(
-                        W.${process.env.ORA_SHAPE_COLUMN_NAME},
-                        SDO_GEOMETRY(:wktConditioned, ${process.env.ORA_SHAPE_SRID})
+                        W.${ORA_SHAPE_COLUMN_NAME},
+                        SDO_GEOMETRY(:wktConditioned, ${ORA_SHAPE_SRID})
                     ) = 'TRUE'`;
                     sqlArgs = [testWkt];
                 }
@@ -47,10 +49,11 @@ class GetCountriesComposer extends kyber_server_1.BaseProcessor {
                     oracleResponse.message = 'OK';
                     oracleResponse.correlationId = this.executionContext.correlationId;
                     this.executionContext.raw = Object.assign({}, oracleResponse);
+                    this.executionContext.raw.ODS = utilities_1.getODSProcessorJSONResponse(npm_package_version, npm_package_lastupdated);
                     return resolve({
                         successful: true,
                         data: {
-                            rowCount: oracleResponse.rows.length
+                            rowCount: oracleResponse.rows.length,
                         }
                     });
                 });

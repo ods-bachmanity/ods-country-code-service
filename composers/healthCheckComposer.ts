@@ -1,5 +1,5 @@
 import { BaseProcessor, ProcessorResponse } from 'kyber-server';
-import { getODSProcessorJSONResponse } from '../common/utilities';
+import { Utilities } from '../common/utilities';
 
 export class HealthCheckComposer extends BaseProcessor {
 
@@ -31,7 +31,7 @@ export class HealthCheckComposer extends BaseProcessor {
                         HealthCheck: `OK`,
                         Message: `Country Code Service is Available`,
                         Database: `Oracle ${connection.oracleServerVersionString}`,
-                        ODS: getODSProcessorJSONResponse(npm_package_version, npm_package_lastupdated) 
+                        ODS: Utilities.getOdsProcessorJSON(),
                     })
                     connection.close()
                     return resolve({

@@ -1,13 +1,20 @@
+const packageJson = require('../package.json');
 
-export const getODSProcessorJSONResponse = (version: string = "Unknown", lastUpdated: string = "Unknown", status: string = "Success") => {
-    return {
-        Processors: {
-            countrycode: {
-                version: version,
-                status: status,
-                timestamp: new Date().toISOString().replace('Z', '+00:00'),
-                lastUpdated: lastUpdated
-            }
-        }
+export class Utilities {
+
+    public static getOdsProcessorJSON(status?: string): any {
+        let timestamp = new Date().toISOString().replace('Z', '+00:00');
+
+        const jsonReturn: any = {Processors: {}};
+
+        // Generate ODS.Processor inital return structure.
+        jsonReturn.Processors.countrycode = {
+            status: `${status||'success'}`,
+            timestamp: `${timestamp}`,
+            version: `${packageJson.version || 'Unknown'}`,
+        };
+
+        return jsonReturn;
     }
 }
+

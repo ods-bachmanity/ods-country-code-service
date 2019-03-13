@@ -6,7 +6,12 @@
   "main": "index.ts",
   "scripts": {
     "start": "nodemon -r ts-node/register index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "newman-version": "newman -v",
+    "happy-path-tests": "newman run tests/country_code_happy_path.json -d tests/happy_path_config.json",
+    "bad-path-tests": "newman run tests/country_code_bad_path.json -d tests/bad_path_config.json",
+    "tsc-version": "tsc --version",
+    "tsc-build": "tsc",
+    "app-zip": "zip -r -X CountryCodeService.zip . -x *.git* ./node_modules/\\* ./logs/\\*"
   },
   "repository": {
     "type": "git",

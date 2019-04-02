@@ -1,17 +1,17 @@
-import { BaseProcessor, ProcessorResponse } from 'kyber-server'
+import { BaseProcessor, ProcessorResponse, ProcessorErrorResponse } from 'syber-server'
 
 export class ErrorResponse extends BaseProcessor {
     
-    fx(args: any): Promise<ProcessorResponse> {
+    fx(): Promise<ProcessorResponse|ProcessorErrorResponse> {
 
-        const result: Promise<ProcessorResponse> = new Promise((resolve, reject) => {
+        const result: Promise<ProcessorResponse|ProcessorErrorResponse> = new Promise((resolve, reject) => {
             try {
                 let message = `Error in Country Code Service`
                 if (this.executionContext.httpStatus === 404) {
                     message = `Unable to locate path '${this.executionContext.req.path}'`
                 }
-                if (this.executionContext.raw && typeof this.executionContext.raw === 'string') {
-                    message = this.executionContext.raw
+                if (this.executionContext.document && typeof this.executionContext.document === 'string') {
+                    message = this.executionContext.document
                 }
                 
                 return resolve({
@@ -24,7 +24,7 @@ export class ErrorResponse extends BaseProcessor {
                         correlationId: this.executionContext.correlationId,
                         errors: this.executionContext.errors,
                         warnings: this.executionContext.warnings,
-                        comment: args ? args : undefined // using undefined will prevent the element from being included if args is null
+                        comment: this.processorDef.args ? this.processorDef.args : undefined // using undefined will prevent the element from being included if args is null
                     }
                 })
             }
@@ -39,7 +39,7 @@ export class ErrorResponse extends BaseProcessor {
                         correlationId: this.executionContext.correlationId,
                         errors: this.executionContext.errors,
                         warnings: this.executionContext.warnings,
-                        comment: args ? args : undefined
+                        comment: this.processorDef.args ? this.processorDef.args : undefined
                     }
                 })
             }

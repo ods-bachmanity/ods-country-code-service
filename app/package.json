@@ -1,6 +1,6 @@
 {
   "name": "ods-country-code-lookup",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Lookup any countries whose SHAPE, defined by boundaries, interacts with a provided WKT SHAPE e.g. What countries interact with the WKT shape I provided?",
   "main": "index.js",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thepepto/ods-country-lookup.git"
+    "url": "git+https://github.com/ods-bachmanity/ods-country-code-service"
   },
   "author": "Steven Sederburg <stevenscloud@live.com>",
   "license": "ISC",
   "dependencies": {
     "config": "^2.0.1",
     "dotenv": "^6.1.0",
-    "kyber-server": "0.0.12",
+    "syber-server": "0.1.4",
     "lodash": "^4.17.11",
     "oracledb": "^3.0.0",
     "winston": "^3.1.0"

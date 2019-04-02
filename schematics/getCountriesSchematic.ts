@@ -1,5 +1,5 @@
 import { Schematic, Parameter, Activity, StartsWithAny, ExecutionMode,
-    SchematicResponse, RawResponse } from 'kyber-server'
+    SchematicResponse, RawResponse } from 'syber-server'
 import { DataProvider, ErrorResponse } from '../common'
 import { GetCountriesComposer } from '../composers'
 import { DefaultResponseSchema, ErrorResponseSchema } from '../schemas'

@@ -8,28 +8,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const kyber_server_1 = require("kyber-server");
+const syber_server_1 = require("syber-server");
 const config = require("config");
 const schematics_1 = require("./schematics");
 const common_1 = require("./common");
-const kyber = new kyber_server_1.KyberServer({
-    port: config.port
+const logger = new common_1.Logger();
+const syber = new syber_server_1.SyberServer({
+    port: config.port,
+    logger: logger
 });
 const dataProvider = new common_1.DataProvider();
-const logger = new common_1.Logger();
-kyber.registerGlobalSchematic(schematics_1.CountryCodeServiceSchematic, [
+syber.registerGlobalSchematic(schematics_1.CountryCodeServiceSchematic, [
     {
         name: 'dataProvider',
         instanceOfType: dataProvider
     }
 ]);
-kyber.events.on(kyber_server_1.KyberServerEvents.ServerStopping, () => {
-    console.log(`\nServer Stopping...`);
+syber.events.on(syber_server_1.SyberServerEvents.ServerStopping, () => {
+    logger.log(`SYS`, `\nServer Stopping...`, `index.onServerStopping`);
     if (dataProvider) {
         dataProvider.shutdown();
     }
 });
-kyber.registerRoute({
+syber.registerRoute({
     verb: 'GET',
     path: '/v2/ods/countrycode/health',
     schematic: schematics_1.HealthCheckGetSchematic,
@@ -40,7 +41,7 @@ kyber.registerRoute({
         }
     ]
 });
-kyber.registerRoute({
+syber.registerRoute({
     verb: 'GET',
     path: '/v2/ods/countrycode/countries',
     schematic: schematics_1.GetCountriesSchematic,
@@ -51,7 +52,7 @@ kyber.registerRoute({
         }
     ]
 });
-kyber.registerRoute({
+syber.registerRoute({
     verb: 'POST',
     path: '/v2/ods/countrycode/countries',
     schematic: schematics_1.PostCountriesSchematic,
@@ -65,22 +66,22 @@ kyber.registerRoute({
 function startup() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            console.log(`Initializing Database Provider`);
+            logger.log(`SYS`, `Initializing Database Provider`, `index.startup`);
             yield dataProvider.init();
-            console.log(`Establishing Database Connection`);
+            logger.log(`SYS`, `Establishing Database Connection`, `index.startup`);
             const connection = yield dataProvider.getConnection();
-            console.log(`Testing Ping to Database Connection`);
+            logger.log(`SYS`, `Testing Ping to Database Connection`, `index.startup`);
             yield connection.ping();
-            console.log(`Starting Application Server`);
+            logger.log(`SYS`, `Starting Application Server`, `index.startup`);
             yield connection.close();
-            console.log(`Closed initialization test connection.`);
-            console.log(`Initializing Logging Interface`);
-            logger.connect(kyber);
-            console.log(`Starting up Kyber Server`);
-            kyber.start();
+            logger.log(`SYS`, `Closed initialization test connection.`, `index.startup`);
+            logger.log(`SYS`, `Initializing Logging Interface`, `index.startup`);
+            logger.connect(syber);
+            logger.log(`SYS`, `Starting up Kyber Server`, `index.startup`);
+            syber.start();
         }
         catch (err) {
-            console.error(`ERROR STARTING DATABASE CONNECTION: ${err}`);
+            logger.error(`SYS`, `ERROR STARTING DATABASE CONNECTION: ${err.message}`, `index.startup`);
             process.exit(1);
         }
     });

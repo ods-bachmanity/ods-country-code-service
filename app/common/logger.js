@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const winston = require("winston");
-const kyber_server_1 = require("kyber-server");
+const syber_server_1 = require("syber-server");
 const { combine, timestamp, label, printf } = winston.format;
 const path = require('path');
 const fs = require('fs');
@@ -35,63 +35,61 @@ class Logger {
         this._winstonLogger = winston.createLogger({
             level: 'info',
             format: myFormat,
-            transports: [
-                new winston.transports.File({ filename: this.getDirectory('error'), level: 'error' }),
-                new winston.transports.File({ filename: this.getDirectory('combined') })
-            ]
+            transports: []
         });
-        if (process.env.NODE_ENV !== 'production') {
-            this._winstonLogger.add(new winston.transports.Console({
-                format: consoleFormat
-            }));
-        }
+        this._winstonLogger.add(new winston.transports.Console({
+            format: consoleFormat
+        }));
     }
-    connect(kyber) {
-        kyber.events.on(kyber_server_1.KyberServerEvents.ServerStarted, (args) => {
+    connect(syber) {
+        syber.events.on(syber_server_1.SyberServerEvents.ServerStarted, (args) => {
             this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ProcessorStarted, (args) => {
-            this.info(args.correlationId, args, args.source);
-        });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ProcessorEnded, (args) => {
-            this.info(args.correlationId, args, args.source);
-        });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ActivityStarted, (args) => {
-            this.info(args.correlationId, args, args.source);
-        });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ActivityEnded, (args) => {
-            this.info(args.correlationId, args, args.source);
-        });
-        kyber.events.on(kyber_server_1.KyberServerEvents.GlobalSchematicError, (args) => {
+        syber.events.on(syber_server_1.SyberServerEvents.GlobalSchematicError, (args) => {
             this.error(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.BeginRequest, (args) => {
+        syber.events.on(syber_server_1.SyberServerEvents.BeginRequest, (args) => {
             this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.RouteHandlerException, (args) => {
+        syber.events.on(syber_server_1.SyberServerEvents.RouteHandlerException, (args) => {
             this.error(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ExecutionContextAfterLoadParameters, (args) => {
+        syber.events.on(syber_server_1.SyberServerEvents.EndRequest, (args) => {
             this.info(args.correlationId, args, args.source);
         });
-        kyber.events.on(kyber_server_1.KyberServerEvents.EndRequest, (args) => {
-            this.info(args.correlationId, args, args.source);
-        });
-        kyber.events.on(kyber_server_1.KyberServerEvents.ServerStopping, (args) => {
+        syber.events.on(syber_server_1.SyberServerEvents.ServerStopping, (args) => {
             this.info(args.correlationId, args, args.source);
         });
     }
     log(id, message, source) {
-        this._winstonLogger.info(this.logPayload(id, message, source));
+        return new Promise((resolve) => {
+            this._winstonLogger.info(this.logPayload(id, message, source));
+            resolve();
+        });
     }
     info(id, message, source) {
-        this._winstonLogger.info(this.logPayload(id, message, source));
+        return new Promise((resolve) => {
+            this._winstonLogger.info(this.logPayload(id, message, source));
+            resolve();
+        });
     }
     error(id, message, source) {
-        this._winstonLogger.error(this.logPayload(id, message, source));
+        return new Promise((resolve) => {
+            this._winstonLogger.error(this.logPayload(id, message, source));
+            resolve();
+        });
+    }
+    debug(id, message, source) {
+        return new Promise((resolve) => {
+            this._winstonLogger.debug(this.logPayload(id, message, source));
+            resolve();
+        });
     }
     warn(id, message, source) {
-        this._winstonLogger.warn(this.logPayload(id, message, source));
+        return new Promise((resolve) => {
+            this._winstonLogger.warn(this.logPayload(id, message, source));
+            resolve();
+        });
     }
     logPayload(id, message, source) {
         return {

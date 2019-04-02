@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const kyber_server_1 = require("kyber-server");
-class ErrorResponse extends kyber_server_1.BaseProcessor {
-    fx(args) {
+const syber_server_1 = require("syber-server");
+class ErrorResponse extends syber_server_1.BaseProcessor {
+    fx() {
         const result = new Promise((resolve, reject) => {
             try {
                 let message = `Error in Country Code Service`;
                 if (this.executionContext.httpStatus === 404) {
                     message = `Unable to locate path '${this.executionContext.req.path}'`;
                 }
-                if (this.executionContext.raw && typeof this.executionContext.raw === 'string') {
-                    message = this.executionContext.raw;
+                if (this.executionContext.document && typeof this.executionContext.document === 'string') {
+                    message = this.executionContext.document;
                 }
                 return resolve({
                     successful: false,
@@ -22,7 +22,7 @@ class ErrorResponse extends kyber_server_1.BaseProcessor {
                         correlationId: this.executionContext.correlationId,
                         errors: this.executionContext.errors,
                         warnings: this.executionContext.warnings,
-                        comment: args ? args : undefined
+                        comment: this.processorDef.args ? this.processorDef.args : undefined
                     }
                 });
             }
@@ -37,7 +37,7 @@ class ErrorResponse extends kyber_server_1.BaseProcessor {
                         correlationId: this.executionContext.correlationId,
                         errors: this.executionContext.errors,
                         warnings: this.executionContext.warnings,
-                        comment: args ? args : undefined
+                        comment: this.processorDef.args ? this.processorDef.args : undefined
                     }
                 });
             }

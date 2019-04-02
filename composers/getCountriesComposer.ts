@@ -1,9 +1,9 @@
-import { BaseProcessor, ProcessorResponse } from 'kyber-server'
+import { BaseProcessor, ProcessorResponse } from 'syber-server'
 import { Utilities } from '../common/utilities';
 
 export class GetCountriesComposer extends BaseProcessor {
 
-    public fx(args: any): Promise<ProcessorResponse> {
+    public fx(): Promise<ProcessorResponse> {
         
         const result: Promise<ProcessorResponse> = new Promise(async(resolve, reject) => {
             
@@ -47,8 +47,8 @@ export class GetCountriesComposer extends BaseProcessor {
                         oracleResponse.message = 'OK'
                         oracleResponse.correlationId = this.executionContext.correlationId
                         
-                        this.executionContext.raw = Object.assign({}, oracleResponse)
-                        this.executionContext.raw.ODS =  Utilities.getOdsProcessorJSON();
+                        this.executionContext.document = Object.assign({}, oracleResponse)
+                        this.executionContext.document.ODS =  Utilities.getOdsProcessorJSON();
                         return resolve({
                             successful: true,
                             data: {
@@ -58,10 +58,10 @@ export class GetCountriesComposer extends BaseProcessor {
                 })
             }
             catch (err) {
-                console.error(`GetCountriesComposer: ${err}`)
+                this.logger.error(this.executionContext.correlationId, `GetCountriesComposer: ${err.message}`, `getCountriesComposer.fx`)
                 return reject({
                     successful: false,
-                    message: `${err}`,
+                    message: `${err.message}`,
                     httpStatus: 500
                 })
             }

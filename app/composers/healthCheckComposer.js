@@ -8,12 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const kyber_server_1 = require("kyber-server");
+const syber_server_1 = require("syber-server");
 const utilities_1 = require("../common/utilities");
-class HealthCheckComposer extends kyber_server_1.BaseProcessor {
-    fx(args) {
+class HealthCheckComposer extends syber_server_1.BaseProcessor {
+    fx() {
         const result = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            const { npm_package_version, npm_package_lastupdated } = process.env;
             try {
                 const db = this.executionContext.getSharedResource('dataProvider');
                 const connection = yield db.getConnection();
@@ -32,7 +31,7 @@ class HealthCheckComposer extends kyber_server_1.BaseProcessor {
                             httpStatus: 400
                         });
                     }
-                    this.executionContext.raw = Object.assign({}, {
+                    this.executionContext.document = Object.assign({}, {
                         HealthCheck: `OK`,
                         Message: `Country Code Service is Available`,
                         Database: `Oracle ${connection.oracleServerVersionString}`,
@@ -45,10 +44,10 @@ class HealthCheckComposer extends kyber_server_1.BaseProcessor {
                 });
             }
             catch (err) {
-                console.error(`HealthCheckSchematic: ${err}`);
+                this.logger.error(this.executionContext.correlationId, `HealthCheckSchematic: ${err.message}`, `healthCheckComposer.fx`);
                 return reject({
                     successful: false,
-                    message: `${err}`,
+                    message: `${err.message}`,
                     httpStatus: 500
                 });
             }

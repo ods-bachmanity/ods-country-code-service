@@ -8,10 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const kyber_server_1 = require("kyber-server");
+const syber_server_1 = require("syber-server");
 const utilities_1 = require("../common/utilities");
-class GetCountriesComposer extends kyber_server_1.BaseProcessor {
-    fx(args) {
+class GetCountriesComposer extends syber_server_1.BaseProcessor {
+    fx() {
         const result = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { ORA_SHAPE_TABLE_NAME, ORA_SHAPE_TABLE_OWNER, ORA_COLUMN_LIST, ORA_SHAPE_COLUMN_NAME, ORA_SHAPE_SRID } = process.env;
@@ -48,8 +48,8 @@ class GetCountriesComposer extends kyber_server_1.BaseProcessor {
                     oracleResponse.code = 0;
                     oracleResponse.message = 'OK';
                     oracleResponse.correlationId = this.executionContext.correlationId;
-                    this.executionContext.raw = Object.assign({}, oracleResponse);
-                    this.executionContext.raw.ODS = utilities_1.Utilities.getOdsProcessorJSON();
+                    this.executionContext.document = Object.assign({}, oracleResponse);
+                    this.executionContext.document.ODS = utilities_1.Utilities.getOdsProcessorJSON();
                     return resolve({
                         successful: true,
                         data: {
@@ -59,10 +59,10 @@ class GetCountriesComposer extends kyber_server_1.BaseProcessor {
                 });
             }
             catch (err) {
-                console.error(`GetCountriesComposer: ${err}`);
+                this.logger.error(this.executionContext.correlationId, `GetCountriesComposer: ${err.message}`, `getCountriesComposer.fx`);
                 return reject({
                     successful: false,
-                    message: `${err}`,
+                    message: `${err.message}`,
                     httpStatus: 500
                 });
             }

@@ -1,13 +1,12 @@
-import { BaseProcessor, ProcessorResponse } from 'kyber-server';
+import { BaseProcessor, ProcessorResponse } from 'syber-server';
 import { Utilities } from '../common/utilities';
 
 export class HealthCheckComposer extends BaseProcessor {
 
-    public fx(args: any): Promise<ProcessorResponse> {
+    public fx(): Promise<ProcessorResponse> {
         
         const result: Promise<ProcessorResponse> = new Promise(async(resolve, reject) => {
             
-            const { npm_package_version, npm_package_lastupdated } = process.env;
             try {
                 const db = this.executionContext.getSharedResource('dataProvider')
                 const connection = await db.getConnection()
@@ -27,7 +26,7 @@ export class HealthCheckComposer extends BaseProcessor {
                         })
                     }
 
-                    this.executionContext.raw = Object.assign({}, {
+                    this.executionContext.document = Object.assign({}, {
                         HealthCheck: `OK`,
                         Message: `Country Code Service is Available`,
                         Database: `Oracle ${connection.oracleServerVersionString}`,
@@ -41,10 +40,10 @@ export class HealthCheckComposer extends BaseProcessor {
 
             }
             catch (err) {
-                console.error(`HealthCheckSchematic: ${err}`)
+                this.logger.error(this.executionContext.correlationId, `HealthCheckSchematic: ${err.message}`, `healthCheckComposer.fx`)
                 return reject({
                     successful: false,
-                    message: `${err}`,
+                    message: `${err.message}`,
                     httpStatus: 500
                 })
             }

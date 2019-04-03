@@ -1,11 +1,11 @@
-import { BaseProcessor, ProcessorResponse } from 'syber-server'
+import { BaseProcessor, ProcessorResponse, ProcessorErrorResponse } from 'syber-server'
 import { Utilities } from '../common/utilities';
 
 export class GetCountriesComposer extends BaseProcessor {
 
-    public fx(): Promise<ProcessorResponse> {
+    public fx(): Promise<ProcessorResponse|ProcessorErrorResponse> {
         
-        const result: Promise<ProcessorResponse> = new Promise(async(resolve, reject) => {
+        const result: Promise<ProcessorResponse|ProcessorErrorResponse> = new Promise(async(resolve, reject) => {
             
             try {
                 const { ORA_SHAPE_TABLE_NAME, ORA_SHAPE_TABLE_OWNER, ORA_COLUMN_LIST, ORA_SHAPE_COLUMN_NAME, ORA_SHAPE_SRID } = process.env;
@@ -14,11 +14,7 @@ export class GetCountriesComposer extends BaseProcessor {
                 const db = this.executionContext.getSharedResource('dataProvider')
                 const connection = await db.getConnection()
                 if (!connection) {
-                    return reject({
-                        successful: false,
-                        message: 'Invalid connection',
-                        httpStatus: 500
-                    })
+                    return reject(this.handleError({message: `Invalid connection`}, `getCountriesComposer.fx`, 500))
                 }
                 let sql = `SELECT ${ORA_COLUMN_LIST} 
                 FROM ${ORA_SHAPE_TABLE_OWNER}.${ORA_SHAPE_TABLE_NAME} W `
@@ -36,11 +32,7 @@ export class GetCountriesComposer extends BaseProcessor {
                     (err, oracleResponse) => {
                         connection.close()
                         if (err) {
-                            return reject({
-                                successful: false,
-                                message: `GetCountriesComposer.connection.execute.Error: Oracle Error Number: ${err.errorNum} Offset: ${err.offset}`,
-                                httpStatus: 400
-                            })
+                            return reject(this.handleError(err, `getCountriesComposer.fx`, 400))
                         }
                         oracleResponse.rowCount = oracleResponse.rows.length
                         oracleResponse.code = 0
@@ -58,12 +50,7 @@ export class GetCountriesComposer extends BaseProcessor {
                 })
             }
             catch (err) {
-                this.logger.error(this.executionContext.correlationId, `GetCountriesComposer: ${err.message}`, `getCountriesComposer.fx`)
-                return reject({
-                    successful: false,
-                    message: `${err.message}`,
-                    httpStatus: 500
-                })
+                return reject(this.handleError(err, `getCountriesComposer.fx`, 500))
             }
         })
         return result    

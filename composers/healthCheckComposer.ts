@@ -1,29 +1,21 @@
-import { BaseProcessor, ProcessorResponse } from 'syber-server';
+import { BaseProcessor, ProcessorResponse, ProcessorErrorResponse } from 'syber-server';
 import { Utilities } from '../common/utilities';
 
 export class HealthCheckComposer extends BaseProcessor {
 
-    public fx(): Promise<ProcessorResponse> {
+    public fx(): Promise<ProcessorResponse|ProcessorErrorResponse> {
         
-        const result: Promise<ProcessorResponse> = new Promise(async(resolve, reject) => {
+        const result: Promise<ProcessorResponse|ProcessorErrorResponse> = new Promise(async(resolve, reject) => {
             
             try {
                 const db = this.executionContext.getSharedResource('dataProvider')
                 const connection = await db.getConnection()
                 if (!connection) {
-                    return reject({
-                        successful: false,
-                        message: 'Invalid connection',
-                        httpStatus: 500
-                    })
+                    return reject(this.handleError({message: `Invalid Connection`}, `healthCheckComposer.fx`, 500))
                 }
                 connection.ping((err) => {
                     if (err) {
-                        return reject({
-                            successful: false,
-                            message: `HealthCheckComposer.connection.ping.Error: Oracle Error Number: ${err.errorNum} Offset: ${err.offset}`,
-                            httpStatus: 400
-                        })
+                        return reject(this.handleError(err, `healthCheckComposer.fx`, 500))
                     }
 
                     this.executionContext.document = Object.assign({}, {
@@ -40,12 +32,7 @@ export class HealthCheckComposer extends BaseProcessor {
 
             }
             catch (err) {
-                this.logger.error(this.executionContext.correlationId, `HealthCheckSchematic: ${err.message}`, `healthCheckComposer.fx`)
-                return reject({
-                    successful: false,
-                    message: `${err.message}`,
-                    httpStatus: 500
-                })
+                return reject(this.handleError(err, `healthCheckComposer.fx`, 500))
             }
         })
 

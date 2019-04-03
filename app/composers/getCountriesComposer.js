@@ -20,11 +20,7 @@ class GetCountriesComposer extends syber_server_1.BaseProcessor {
                 const db = this.executionContext.getSharedResource('dataProvider');
                 const connection = yield db.getConnection();
                 if (!connection) {
-                    return reject({
-                        successful: false,
-                        message: 'Invalid connection',
-                        httpStatus: 500
-                    });
+                    return reject(this.handleError({ message: `Invalid connection` }, `getCountriesComposer.fx`, 500));
                 }
                 let sql = `SELECT ${ORA_COLUMN_LIST} 
                 FROM ${ORA_SHAPE_TABLE_OWNER}.${ORA_SHAPE_TABLE_NAME} W `;
@@ -38,11 +34,7 @@ class GetCountriesComposer extends syber_server_1.BaseProcessor {
                 connection.execute(sql, sqlArgs, (err, oracleResponse) => {
                     connection.close();
                     if (err) {
-                        return reject({
-                            successful: false,
-                            message: `GetCountriesComposer.connection.execute.Error: Oracle Error Number: ${err.errorNum} Offset: ${err.offset}`,
-                            httpStatus: 400
-                        });
+                        return reject(this.handleError(err, `getCountriesComposer.fx`, 400));
                     }
                     oracleResponse.rowCount = oracleResponse.rows.length;
                     oracleResponse.code = 0;
@@ -59,12 +51,7 @@ class GetCountriesComposer extends syber_server_1.BaseProcessor {
                 });
             }
             catch (err) {
-                this.logger.error(this.executionContext.correlationId, `GetCountriesComposer: ${err.message}`, `getCountriesComposer.fx`);
-                return reject({
-                    successful: false,
-                    message: `${err.message}`,
-                    httpStatus: 500
-                });
+                return reject(this.handleError(err, `getCountriesComposer.fx`, 500));
             }
         }));
         return result;

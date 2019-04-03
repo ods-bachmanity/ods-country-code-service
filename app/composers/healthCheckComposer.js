@@ -17,19 +17,11 @@ class HealthCheckComposer extends syber_server_1.BaseProcessor {
                 const db = this.executionContext.getSharedResource('dataProvider');
                 const connection = yield db.getConnection();
                 if (!connection) {
-                    return reject({
-                        successful: false,
-                        message: 'Invalid connection',
-                        httpStatus: 500
-                    });
+                    return reject(this.handleError({ message: `Invalid Connection` }, `healthCheckComposer.fx`, 500));
                 }
                 connection.ping((err) => {
                     if (err) {
-                        return reject({
-                            successful: false,
-                            message: `HealthCheckComposer.connection.ping.Error: Oracle Error Number: ${err.errorNum} Offset: ${err.offset}`,
-                            httpStatus: 400
-                        });
+                        return reject(this.handleError(err, `healthCheckComposer.fx`, 500));
                     }
                     this.executionContext.document = Object.assign({}, {
                         HealthCheck: `OK`,
@@ -44,12 +36,7 @@ class HealthCheckComposer extends syber_server_1.BaseProcessor {
                 });
             }
             catch (err) {
-                this.logger.error(this.executionContext.correlationId, `HealthCheckSchematic: ${err.message}`, `healthCheckComposer.fx`);
-                return reject({
-                    successful: false,
-                    message: `${err.message}`,
-                    httpStatus: 500
-                });
+                return reject(this.handleError(err, `healthCheckComposer.fx`, 500));
             }
         }));
         return result;

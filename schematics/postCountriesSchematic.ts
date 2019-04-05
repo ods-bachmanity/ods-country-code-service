@@ -1,4 +1,4 @@
-import { Schematic, Parameter, Activity, ExecutionMode, StartsWithAny, SchematicResponse, RawResponse } from 'kyber-server'
+import { Schematic, Parameter, Activity, ExecutionMode, StartsWithAny, SchematicResponse, RawResponse } from 'syber-server'
 import { DataProvider, ErrorResponse } from '../common'
 import { GetCountriesComposer } from '../composers'
 import { GetCountriesSchematic } from './'

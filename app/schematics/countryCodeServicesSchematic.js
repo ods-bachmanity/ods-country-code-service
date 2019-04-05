@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const kyber_server_1 = require("kyber-server");
+const syber_server_1 = require("syber-server");
 const common_1 = require("../common");
 const schemas_1 = require("../schemas");
-class CountryCodeServiceSchematic extends kyber_server_1.GlobalSchematic {
+class CountryCodeServiceSchematic extends syber_server_1.GlobalSchematic {
     constructor() {
         super(...arguments);
         this.responses = [

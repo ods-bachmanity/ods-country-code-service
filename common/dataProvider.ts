@@ -24,7 +24,6 @@ export class DataProvider {
                         throw err
                     }
                     this.pool = pool
-                    console.log(`Created database pool...`)
                     return resolve(pool)
                 })
             }
@@ -62,7 +61,6 @@ export class DataProvider {
                     return resolve()
                 }
                 this.didShutdown = true
-                console.log(`Shutting down database connection...`)
                 this.pool.close()
                 this.pool = null
             }

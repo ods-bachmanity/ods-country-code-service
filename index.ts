@@ -1,7 +1,7 @@
 import {SyberServer, SyberServerEvents } from 'syber-server'
 import * as config from 'config'
 import { HealthCheckGetSchematic, GetCountriesSchematic, PostCountriesSchematic, CountryCodeServiceSchematic } from './schematics'
-import { DataProvider, Logger } from './common'
+import { DataProvider, Logger, HttpLogger } from './common'
 
 const logger = new Logger()
 
@@ -10,6 +10,9 @@ const syber = new SyberServer({
     port: config.port,
     logger: logger
 })
+
+const httpLogger = new HttpLogger(syber.express, logger);
+httpLogger.init();
 
 // declare an instance of the oracle database to be shared with schematics
 const dataProvider = new DataProvider()
@@ -31,6 +34,7 @@ syber.events.on(SyberServerEvents.ServerStopping, () => {
     if (dataProvider) {
         dataProvider.shutdown()
     }
+    httpLogger.destroy();
 })
     
 // GET /v2/ods/countrycode/health

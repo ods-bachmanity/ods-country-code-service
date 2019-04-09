@@ -1,3 +1,9 @@
+## v2.0.12 (April 9, 2019)
+
+* #36945 - Add HTTP Logging to CCS - Dependent on Research and document exactly what each service needs to log (Mike)
+* #36945 - Without specific requirement, use Apache combined format and include correlation id and response time in milliseconds
+* #36945 - Requires node to have read/write privileges on OS for path `/var/logs/ccs/http/http.log`
+
 ## v2.0.11 (April 2, 2019)
 
 * #38215 - Restructuring/fix Node app pipeline (logging, pm2, swagger)

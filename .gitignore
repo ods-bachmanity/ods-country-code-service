@@ -66,6 +66,5 @@ _docker/
 
 app/node_modules
 app/.env
-app/*.js
-app/**/*.js
+
 

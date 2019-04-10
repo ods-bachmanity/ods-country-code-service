@@ -91,7 +91,7 @@ async function startup() {
         logger.log(`SYS`, `Closed initialization test connection.`, `index.startup`)
         logger.log(`SYS`, `Initializing Logging Interface`, `index.startup`)
         logger.connect(syber)
-        logger.log(`SYS`, `Starting up Kyber Server`, `index.startup`)
+        logger.log(`SYS`, `Starting up Syber Server`, `index.startup`)
         syber.start()
     }
     catch (err) {

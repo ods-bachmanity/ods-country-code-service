@@ -1,3 +1,7 @@
+## v2.0.13 (April 9, 2019)
+
+* #39690 - Update Swagger definition to include new ODS Processors node
+
 ## v2.0.12 (April 9, 2019)
 
 * #36944 - Add HTTP Logging to CCS - Dependent on Research and document exactly what each service needs to log (Mike)

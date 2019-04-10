@@ -17,6 +17,8 @@ const syber = new syber_server_1.SyberServer({
     port: config.port,
     logger: logger
 });
+const httpLogger = new common_1.HttpLogger(syber.express, logger);
+httpLogger.init();
 const dataProvider = new common_1.DataProvider();
 syber.registerGlobalSchematic(schematics_1.CountryCodeServiceSchematic, [
     {
@@ -29,6 +31,7 @@ syber.events.on(syber_server_1.SyberServerEvents.ServerStopping, () => {
     if (dataProvider) {
         dataProvider.shutdown();
     }
+    httpLogger.destroy();
 });
 syber.registerRoute({
     verb: 'GET',
@@ -77,7 +80,7 @@ function startup() {
             logger.log(`SYS`, `Closed initialization test connection.`, `index.startup`);
             logger.log(`SYS`, `Initializing Logging Interface`, `index.startup`);
             logger.connect(syber);
-            logger.log(`SYS`, `Starting up Kyber Server`, `index.startup`);
+            logger.log(`SYS`, `Starting up Syber Server`, `index.startup`);
             syber.start();
         }
         catch (err) {

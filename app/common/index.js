@@ -7,3 +7,4 @@ __export(require("./dataProvider"));
 __export(require("./errorResponse"));
 __export(require("./logger"));
 __export(require("./utilities"));
+__export(require("./httpLogger"));

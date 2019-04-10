@@ -27,17 +27,44 @@
                     },
                     "Message": {
                       "type": "string",
-                      "example": "No Rest for Old Men"
+                      "example": "Country Code Service is Available"
                     },
                     "Database": {
                       "type": "string",
                       "example": "Oracle 12.1.0.2.0"
+                    },
+                    "ODS": {
+                      "type": "object",
+                      "properties": {
+                        "Processors": {
+                          "type": "object",
+                          "properties": {
+                            "countrycode": {
+                              "type": "object",
+                              "properties": {
+                                "status": {
+                                  "type": "string",
+                                  "example": "success"
+                                },
+                                "timestamp": {
+                                  "type": "string",
+                                  "example": "2019-03-09T21:50:04.376+00:00"
+                                },
+                                "version": {
+                                  "type": "string",
+                                  "example": "2.0.13"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 },
                 "examples": {
                   "0": {
-                    "value": "{\"HealthCheck\":\"OK\",\"Message\":\"No Rest for Old Men\",\"Database\":\"Oracle 12.1.0.2.0\"}"
+                    "value": "{\"HealthCheck\":\"OK\",\"Message\":\"Country Code Service is Available\",\"Database\":\"Oracle 12.1.0.2.0\",\"ODS\":{\"Processors\":{\"countrycode\":{\"status\":\"success\",\"timestamp\":\"2019-03-10T13:39:16.079+00:00\",\"version\":\"2.0.13\"}}}}"
                   }
                 }
               }
@@ -155,10 +182,12 @@
                       }
                     },
                     "code": {
-                      "type": "integer"
+                      "type": "integer",
+                      "example": 0
                     },
                     "rowCount": {
-                      "type": "integer"
+                      "type": "integer",
+                      "example": 1
                     },
                     "rows": {
                       "type": "array",
@@ -166,29 +195,68 @@
                         "type": "object",
                         "properties": {
                           "OBJECTID": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 145
                           },
                           "COUNTRY": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "Antarctica"
                           },
                           "GENC_NUM": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "10"
                           },
                           "GENC_2": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "AQ"
                           },
                           "GENC_3": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "ATA"
                           }
                         }
                       }
                     },
                     "message": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "OK"
                     },
                     "correlationId": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "473ebd80-419d-4104-9b32-c0b510e10349"
+                    },
+                    "ODS": {
+                      "type": "object",
+                      "properties": {
+                        "Processors": {
+                          "type": "object",
+                          "properties": {
+                            "countrycode": {
+                              "type": "object",
+                              "properties": {
+                                "status": {
+                                  "type": "string",
+                                  "example": "success"
+                                },
+                                "timestamp": {
+                                  "type": "string",
+                                  "example": "2019-03-09T21:50:04.376+00:00"
+                                },
+                                "version": {
+                                  "type": "string",
+                                  "example": "2.0.13"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
+                  }
+                },
+                "examples": {
+                  "0": {
+                    "value": "{\"metaData\":[{\"name\":\"OBJECTID\"},{\"name\":\"GENC_2\"},{\"name\":\"GENC_3\"},{\"name\":\"GENC_NUM\"},{\"name\":\"COUNTRY\"}],\"rows\":[{\"OBJECTID\":225,\"GENC_2\":\"ID\",\"GENC_3\":\"IDN\",\"GENC_NUM\":\"360\",\"COUNTRY\":\"Indonesia\"},{\"OBJECTID\":121,\"GENC_2\":\"MY\",\"GENC_3\":\"MYS\",\"GENC_NUM\":\"458\",\"COUNTRY\":\"Malaysia\"},{\"OBJECTID\":8,\"GENC_2\":\"AR\",\"GENC_3\":\"ARG\",\"GENC_NUM\":\"32\",\"COUNTRY\":\"Argentina\"},{\"OBJECTID\":33,\"GENC_2\":\"CL\",\"GENC_3\":\"CHL\",\"GENC_NUM\":\"152\",\"COUNTRY\":\"Chile\"},{\"OBJECTID\":145,\"GENC_2\":\"AQ\",\"GENC_3\":\"ATA\",\"GENC_NUM\":\"10\",\"COUNTRY\":\"Antarctica\"}],\"rowCount\":5,\"code\":0,\"message\":\"OK\",\"correlationId\":\"473ebd80-419d-4104-9b32-c0b510e10349\",\"ODS\":{\"Processors\":{\"countrycode\":{\"status\":\"success\",\"timestamp\":\"2019-03-10T13:39:24.450+00:00\",\"version\":\"2.0.13\"}}}}"
                   }
                 }
               }
@@ -336,10 +404,12 @@
                       }
                     },
                     "code": {
-                      "type": "integer"
+                      "type": "integer",
+                      "example": 0
                     },
                     "rowCount": {
-                      "type": "integer"
+                      "type": "integer",
+                      "example": 1
                     },
                     "rows": {
                       "type": "array",
@@ -347,34 +417,68 @@
                         "type": "object",
                         "properties": {
                           "OBJECTID": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 145
                           },
                           "COUNTRY": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "Antarctica"
                           },
                           "GENC_NUM": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "10"
                           },
                           "GENC_2": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "AQ"
                           },
                           "GENC_3": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "ATA"
                           }
                         }
                       }
                     },
                     "message": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "OK"
                     },
                     "correlationId": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "473ebd80-419d-4104-9b32-c0b510e10349"
+                    },
+                    "ODS": {
+                      "type": "object",
+                      "properties": {
+                        "Processors": {
+                          "type": "object",
+                          "properties": {
+                            "countrycode": {
+                              "type": "object",
+                              "properties": {
+                                "status": {
+                                  "type": "string",
+                                  "example": "success"
+                                },
+                                "timestamp": {
+                                  "type": "string",
+                                  "example": "2019-03-09T21:50:04.376+00:00"
+                                },
+                                "version": {
+                                  "type": "string",
+                                  "example": "2.0.13"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 },
                 "examples": {
                   "0": {
-                    "value": "{\"metaData\":[{\"name\":\"OBJECTID\"},{\"name\":\"GENC_2\"},{\"name\":\"GENC_3\"},{\"name\":\"GENC_NUM\"},{\"name\":\"COUNTRY\"}],\"rows\":[{\"OBJECTID\":209,\"GENC_2\":\"US\",\"GENC_3\":\"USA\",\"GENC_NUM\":\"840\",\"COUNTRY\":\"United States\"}],\"code\":0,\"message\":\"OK\",\"rowCount\":1}"
+                    "value": "{\"metaData\":[{\"name\":\"OBJECTID\"},{\"name\":\"GENC_2\"},{\"name\":\"GENC_3\"},{\"name\":\"GENC_NUM\"},{\"name\":\"COUNTRY\"}],\"rows\":[{\"OBJECTID\":225,\"GENC_2\":\"ID\",\"GENC_3\":\"IDN\",\"GENC_NUM\":\"360\",\"COUNTRY\":\"Indonesia\"},{\"OBJECTID\":121,\"GENC_2\":\"MY\",\"GENC_3\":\"MYS\",\"GENC_NUM\":\"458\",\"COUNTRY\":\"Malaysia\"},{\"OBJECTID\":8,\"GENC_2\":\"AR\",\"GENC_3\":\"ARG\",\"GENC_NUM\":\"32\",\"COUNTRY\":\"Argentina\"},{\"OBJECTID\":33,\"GENC_2\":\"CL\",\"GENC_3\":\"CHL\",\"GENC_NUM\":\"152\",\"COUNTRY\":\"Chile\"},{\"OBJECTID\":145,\"GENC_2\":\"AQ\",\"GENC_3\":\"ATA\",\"GENC_NUM\":\"10\",\"COUNTRY\":\"Antarctica\"}],\"rowCount\":5,\"code\":0,\"message\":\"OK\",\"correlationId\":\"473ebd80-419d-4104-9b32-c0b510e10349\",\"ODS\":{\"Processors\":{\"countrycode\":{\"status\":\"success\",\"timestamp\":\"2019-03-10T13:39:24.450+00:00\",\"version\":\"2.0.13\"}}}}"
                   }
                 }
               }
@@ -497,10 +601,12 @@
                       }
                     },
                     "code": {
-                      "type": "integer"
+                      "type": "integer",
+                      "example": 0
                     },
                     "rowCount": {
-                      "type": "integer"
+                      "type": "integer",
+                      "example": 1
                     },
                     "rows": {
                       "type": "array",
@@ -508,34 +614,68 @@
                         "type": "object",
                         "properties": {
                           "OBJECTID": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 145
                           },
                           "COUNTRY": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "Antarctica"
                           },
                           "GENC_NUM": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "10"
                           },
                           "GENC_2": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "AQ"
                           },
                           "GENC_3": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "ATA"
                           }
                         }
                       }
                     },
                     "message": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "OK"
                     },
                     "correlationId": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "473ebd80-419d-4104-9b32-c0b510e10349"
+                    },
+                    "ODS": {
+                      "type": "object",
+                      "properties": {
+                        "Processors": {
+                          "type": "object",
+                          "properties": {
+                            "countrycode": {
+                              "type": "object",
+                              "properties": {
+                                "status": {
+                                  "type": "string",
+                                  "example": "success"
+                                },
+                                "timestamp": {
+                                  "type": "string",
+                                  "example": "2019-03-09T21:50:04.376+00:00"
+                                },
+                                "version": {
+                                  "type": "string",
+                                  "example": "2.0.13"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 },
                 "examples": {
                   "0": {
-                    "value": "{\"metaData\":[{\"name\":\"OBJECTID\"},{\"name\":\"GENC_2\"},{\"name\":\"GENC_3\"},{\"name\":\"GENC_NUM\"},{\"name\":\"COUNTRY\"}],\"rows\":[{\"OBJECTID\":209,\"GENC_2\":\"US\",\"GENC_3\":\"USA\",\"GENC_NUM\":\"840\",\"COUNTRY\":\"United States\"}],\"code\":0,\"message\":\"OK\",\"rowCount\":1}"
+                    "value": "{\"metaData\":[{\"name\":\"OBJECTID\"},{\"name\":\"GENC_2\"},{\"name\":\"GENC_3\"},{\"name\":\"GENC_NUM\"},{\"name\":\"COUNTRY\"}],\"rows\":[{\"OBJECTID\":225,\"GENC_2\":\"ID\",\"GENC_3\":\"IDN\",\"GENC_NUM\":\"360\",\"COUNTRY\":\"Indonesia\"},{\"OBJECTID\":121,\"GENC_2\":\"MY\",\"GENC_3\":\"MYS\",\"GENC_NUM\":\"458\",\"COUNTRY\":\"Malaysia\"},{\"OBJECTID\":8,\"GENC_2\":\"AR\",\"GENC_3\":\"ARG\",\"GENC_NUM\":\"32\",\"COUNTRY\":\"Argentina\"},{\"OBJECTID\":33,\"GENC_2\":\"CL\",\"GENC_3\":\"CHL\",\"GENC_NUM\":\"152\",\"COUNTRY\":\"Chile\"},{\"OBJECTID\":145,\"GENC_2\":\"AQ\",\"GENC_3\":\"ATA\",\"GENC_NUM\":\"10\",\"COUNTRY\":\"Antarctica\"}],\"rowCount\":5,\"code\":0,\"message\":\"OK\",\"correlationId\":\"473ebd80-419d-4104-9b32-c0b510e10349\",\"ODS\":{\"Processors\":{\"countrycode\":{\"status\":\"success\",\"timestamp\":\"2019-03-10T13:39:24.450+00:00\",\"version\":\"2.0.13\"}}}}"
                   }
                 }
               }

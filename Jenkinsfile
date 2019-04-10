@@ -9,6 +9,7 @@ pipeline {
         steps {
             echo 'Cleaning..'
             sh 'rm -rf node_modules'
+			sh 'rm -rf app/node_modules'
             sh 'rm -rf logs'
             sh 'rm -rf CountryCodeService*.zip'
         }
@@ -16,6 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+				sh 'npm cache add syber-server@0.1.8'
                 sh 'npm install'
                 sh 'npm run tsc-version'
                 sh 'npm run tsc-build'

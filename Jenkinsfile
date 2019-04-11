@@ -17,7 +17,7 @@ pipeline {
             steps {
                 echo 'Building..'
 								sh 'npm config set registry https://registry.npmjs.com/'
-                sh 'npm install npm install && npm install grunt-protractor-runner --save-dev'
+                sh 'npm install'
                 sh 'npm run tsc-version'
                 sh 'npm run tsc-build'
                 sh 'ls -l app/'

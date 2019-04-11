@@ -16,7 +16,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'npm install && npm install syber-server --save-dev'
+								sh 'npm config set registry https://registry.npmjs.com/'
+                sh 'npm install npm install && npm install grunt-protractor-runner --save-dev'
                 sh 'npm run tsc-version'
                 sh 'npm run tsc-build'
                 sh 'ls -l app/'

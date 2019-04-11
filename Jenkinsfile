@@ -9,6 +9,7 @@ pipeline {
         steps {
             echo 'Cleaning..'
             sh 'rm -rf node_modules'
+						sh 'rm -rf app/node_modules'
             sh 'rm -rf logs'
             sh 'rm -rf CountryCodeService*.zip'
         }
@@ -17,6 +18,7 @@ pipeline {
             steps {
                 echo 'Building..'
 								sh 'npm config set registry https://registry.npmjs.com/'
+								sh 'cd app && npm install'
                 sh 'npm install'
                 sh 'npm run tsc-version'
                 sh 'npm run tsc-build'

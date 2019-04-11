@@ -17,6 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+								sh 'npm install syber-server@0.1.8'
                 sh 'npm install'
                 sh 'npm run tsc-version'
                 sh 'npm run tsc-build'

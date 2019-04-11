@@ -16,9 +16,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-								sh 'cat package-lock.json'
-								sh 'cat package.json'
-                sh 'npm install'
+                sh 'npm install && npm install syber-server --save-dev'
                 sh 'npm run tsc-version'
                 sh 'npm run tsc-build'
                 sh 'ls -l app/'

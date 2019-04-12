@@ -6,7 +6,7 @@
         "testName": "health check",
         "testNumber": 0,
         "requestBody": "",
-        "expectedReponse": {
+        "expectedResponse": {
           "code": 0,
           "message": "",
           "errors": [],
@@ -19,12 +19,13 @@
         "requestBody": {
           "wkt": "POINT(30X 30)"
         },
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Error in Country Code Service",
-          "correlationId": "7b88fbf3-5ebc-4b45-afe7-42bf647875e7",
+          "correlationId": "b15258f4-1972-4016-9ce4-e04b2a82d3aa",
           "errors": [
-            "ExecutionContext.runActvities.error: GetCountriesComposer.connection.execute.Error: Oracle Error Number: 29902 Offset: 165"
+            "Parameter wkt is required.",
+            "ExecutionContext.loadParameters: Invalid Request"
           ],
           "warnings": []
         }
@@ -35,12 +36,13 @@
         "requestBody": {
           "": "POINT(30 30)"
         },
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Error in Country Code Service",
+          "correlationId": "d1f49e15-2c02-490a-8940-729581900ae3",
           "errors": [
             "Parameter wkt is required.",
-            "ExecutionContext.loadParameters: Error: Invalid Request"
+            "ExecutionContext.loadParameters: Invalid Request"
           ],
           "warnings": []
         }
@@ -49,12 +51,13 @@
         "testName": "400 Error: Empty JSON body",
         "testNumber": 3,
         "requestBody": {},
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Error in Country Code Service",
+          "correlationId": "aa1336be-6611-4e1e-a529-5b5159181eb1",
           "errors": [
             "Parameter wkt is required.",
-            "ExecutionContext.loadParameters: Error: Invalid Request"
+            "ExecutionContext.loadParameters: Invalid Request"
           ],
           "warnings": []
         }
@@ -63,13 +66,13 @@
         "testName": "400 Error: Content-Type application/xml",
         "testNumber": 4,
         "requestBody": {},
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Error in Country Code Service",
-          "correlationId": "5f39625e-b0d1-439e-8fa0-4526d503c43d",
+          "correlationId": "2a76b6ce-7bbf-4584-ae0b-03e01336da4e",
           "errors": [
             "Parameter wkt is required.",
-            "ExecutionContext.loadParameters: Error: Invalid Request"
+            "ExecutionContext.loadParameters: Invalid Request"
           ],
           "warnings": []
         }
@@ -77,13 +80,13 @@
       {
         "testName": "400 Error: Bad WKT GET",
         "testNumber": 5,
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Error in Country Code Service",
-          "correlationId": "34f6e247-acfa-4c5c-b0c9-1cf4f714b73e",
+          "correlationId": "437993d9-08a6-41cc-8054-46c72d11e532",
           "errors": [
             "Parameter wkt is an invalid data type. Should be string.",
-            "ExecutionContext.loadParameters: Error: Invalid Request"
+            "ExecutionContext.loadParameters: Invalid Request"
           ],
           "warnings": []
         }
@@ -92,7 +95,7 @@
         "testName": "404 Error: GET /v2/ods/countrycode/countrie",
         "testNumber": 6,
         "requestBody": {},
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Unable to locate path /v2/ods/countrycode/countrie",
           "correlationId": "09b80846-7e73-43fc-8b24-e138f7268652",
@@ -106,7 +109,7 @@
         "testName": "404 Error: POST /v2/ods/countrycode/countrie",
         "testNumber": 7,
         "requestBody": {},
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Unable to locate path /v2/ods/countrycode/countrie",
           "correlationId": "b3eadfc7-782d-421a-bd22-ea31eceae3d2",
@@ -120,7 +123,7 @@
         "testName": "404 Error: GET /v2/ods/countrycode/countries/444",
         "testNumber": 8,
         "requestBody": {},
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Unable to locate path /v2/ods/countrycode/countries/444",
           "correlationId": "09b80846-7e73-43fc-8b24-e138f7268652",
@@ -134,7 +137,7 @@
         "testName": "404 Error: POST /v2/ods/countrycode/countries/444",
         "testNumber": 9,
         "requestBody": {},
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Unable to locate path /v2/ods/countrycode/countries/444",
           "correlationId": "b3eadfc7-782d-421a-bd22-ea31eceae3d2",
@@ -148,7 +151,7 @@
         "testName": "404 Error: GET /countries",
         "testNumber": 10,
         "requestBody": {},
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Unable to locate path /countries",
           "correlationId": "09b80846-7e73-43fc-8b24-e138f7268652",
@@ -162,7 +165,7 @@
         "testName": "404 Error: POST /countries",
         "testNumber": 11,
         "requestBody": {},
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Unable to locate path /countries",
           "correlationId": "b3eadfc7-782d-421a-bd22-ea31eceae3d2",
@@ -178,7 +181,7 @@
         "requestBody": {
           "wkt": "POINT(30 30)"
         },
-        "expectedReponse": {
+        "expectedResponse": {
           "code": -1,
           "message": "Unable to locate path /v2/ods/countrycode/countries",
           "correlationId": "7c4e8810-bd32-46d0-a3e7-298b64a922ce",
@@ -191,15 +194,15 @@
       {
         "testName": "500 Error: Bad JSON Syntax",
         "testNumber": 13,
-        "requestBody":"{]",
-        "expectedReponse": {
-    "code": -1,
-    "message": "Unhandled Exception in service: /v2/ods/countrycode/countries: SyntaxError: Unexpected token \" in JSON at position 0",
-    "errors": [
-        "Unhandled Exception in service: /v2/ods/countrycode/countries: SyntaxError: Unexpected token \" in JSON at position 0"
-    ],
-    "warnings": []
-}
+        "requestBody": "{]",
+        "expectedResponse": {
+          "code": -1,
+          "message": "Unhandled Exception in service: /v2/ods/countrycode/countries: SyntaxError: Unexpected token \" in JSON at position 0",
+          "errors": [
+            "Unhandled Exception in service: /v2/ods/countrycode/countries: SyntaxError: Unexpected token \" in JSON at position 0"
+          ],
+          "warnings": []
+        }
       }
     ]
   }

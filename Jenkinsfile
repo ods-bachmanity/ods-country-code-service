@@ -9,6 +9,7 @@ pipeline {
         steps {
             echo 'Cleaning..'
             sh 'rm -rf node_modules'
+			sh 'rm -rf app/node_modules'
             sh 'rm -rf logs'
             sh 'rm -rf CountryCodeService*.zip'
         }

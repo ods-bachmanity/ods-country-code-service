@@ -1,33 +1,28 @@
-import { BaseProcessor, ProcessorResponse } from 'kyber-server'
+import { BaseProcessor, ProcessorResponse, ProcessorErrorResponse } from 'syber-server';
+import { Utilities } from '../common/utilities';
 
 export class HealthCheckComposer extends BaseProcessor {
 
-    public fx(args: any): Promise<ProcessorResponse> {
+    public fx(): Promise<ProcessorResponse|ProcessorErrorResponse> {
         
-        const result: Promise<ProcessorResponse> = new Promise(async(resolve, reject) => {
+        const result: Promise<ProcessorResponse|ProcessorErrorResponse> = new Promise(async(resolve, reject) => {
             
             try {
                 const db = this.executionContext.getSharedResource('dataProvider')
                 const connection = await db.getConnection()
                 if (!connection) {
-                    return reject({
-                        successful: false,
-                        message: 'Invalid connection',
-                        httpStatus: 500
-                    })
+                    return reject(this.handleError({message: `Invalid Connection`}, `healthCheckComposer.fx`, 500))
                 }
                 connection.ping((err) => {
                     if (err) {
-                        return reject({
-                            successful: false,
-                            message: `HealthCheckComposer.connection.ping.Error: Oracle Error Number: ${err.errorNum} Offset: ${err.offset}`,
-                            httpStatus: 400
-                        })
+                        return reject(this.handleError(err, `healthCheckComposer.fx`, 500))
                     }
-                    this.executionContext.raw = Object.assign({}, {
+
+                    this.executionContext.document = Object.assign({}, {
                         HealthCheck: `OK`,
-                        Message: `No Rest for Old Men`,
-                        Database: `Oracle ${connection.oracleServerVersionString}`
+                        Message: `Country Code Service is Available`,
+                        Database: `Oracle ${connection.oracleServerVersionString}`,
+                        ODS: Utilities.getOdsProcessorJSON(),
                     })
                     connection.close()
                     return resolve({
@@ -37,12 +32,7 @@ export class HealthCheckComposer extends BaseProcessor {
 
             }
             catch (err) {
-                console.error(`HealthCheckSchematic: ${err}`)
-                return reject({
-                    successful: false,
-                    message: `${err}`,
-                    httpStatus: 500
-                })
+                return reject(this.handleError(err, `healthCheckComposer.fx`, 500))
             }
         })
 

@@ -1,4 +1,4 @@
-import { Schematic, Parameter, Activity, ExecutionMode, SchematicResponse, RawResponse } from 'kyber-server'
+import { Schematic, Parameter, Activity, ExecutionMode, SchematicResponse, RawResponse } from 'syber-server'
 import { DataProvider, ErrorResponse } from '../common'
 import { HealthCheckComposer } from '../composers'
 import { HealthResponseSchema } from '../schemas'

@@ -1,19 +1,24 @@
-import {KyberServer, KyberServerEvents } from 'kyber-server'
+import {SyberServer, SyberServerEvents } from 'syber-server'
 import * as config from 'config'
 import { HealthCheckGetSchematic, GetCountriesSchematic, PostCountriesSchematic, CountryCodeServiceSchematic } from './schematics'
-import { DataProvider, Logger } from './common'
+import { DataProvider, Logger, HttpLogger } from './common'
+
+const logger = new Logger()
 
 // Stand up Express Server Common Framework
-const kyber = new KyberServer({
-    port: config.port
+const syber = new SyberServer({
+    port: config.port,
+    logger: logger
 })
+
+const httpLogger = new HttpLogger(syber.express, logger);
+httpLogger.init();
 
 // declare an instance of the oracle database to be shared with schematics
 const dataProvider = new DataProvider()
-const logger = new Logger()
 
 // register a global schematic to handle errors, run before each execution, run after each execution, startup and shutdown
-kyber.registerGlobalSchematic(
+syber.registerGlobalSchematic(
     CountryCodeServiceSchematic,
     [
         {
@@ -24,15 +29,16 @@ kyber.registerGlobalSchematic(
 )
 
 // Handle Shutdown Event gracefully. Close database connection
-kyber.events.on(KyberServerEvents.ServerStopping, () => {
-    console.log(`\nServer Stopping...`)
+syber.events.on(SyberServerEvents.ServerStopping, () => {
+    logger.log(`SYS`, `\nServer Stopping...`, `index.onServerStopping`)
     if (dataProvider) {
         dataProvider.shutdown()
     }
+    httpLogger.destroy();
 })
     
 // GET /v2/ods/countrycode/health
-kyber.registerRoute({
+syber.registerRoute({
     verb: 'GET',
     path: '/v2/ods/countrycode/health',
     schematic: HealthCheckGetSchematic,
@@ -45,7 +51,7 @@ kyber.registerRoute({
 })
 
 // GET /v2/ods/countrycode/countries
-kyber.registerRoute({
+syber.registerRoute({
     verb: 'GET',
     path: '/v2/ods/countrycode/countries',
     schematic: GetCountriesSchematic,
@@ -58,7 +64,7 @@ kyber.registerRoute({
 })
 
 // POST /v2/ods/countrycode/countries
-kyber.registerRoute({
+syber.registerRoute({
     verb: 'POST',
     path: '/v2/ods/countrycode/countries',
     schematic: PostCountriesSchematic,
@@ -74,22 +80,22 @@ kyber.registerRoute({
 // Note: We do not call kyber.start() until after all routes are registered and all shared resources are verified/seeded etc.
 async function startup() {
     try {
-        console.log(`Initializing Database Provider`)
+        logger.log(`SYS`, `Initializing Database Provider`, `index.startup`)
         await dataProvider.init()
-        console.log(`Establishing Database Connection`)
+        logger.log(`SYS`, `Establishing Database Connection`, `index.startup`)
         const connection = await dataProvider.getConnection()
-        console.log(`Testing Ping to Database Connection`)
+        logger.log(`SYS`, `Testing Ping to Database Connection`, `index.startup`)
         await connection.ping()
-        console.log(`Starting Application Server`)
+        logger.log(`SYS`, `Starting Application Server`, `index.startup`)
         await connection.close()
-        console.log(`Closed initialization test connection.`)
-        console.log(`Initializing Logging Interface`)
-        logger.connect(kyber)
-        console.log(`Starting up Kyber Server`)
-        kyber.start()
+        logger.log(`SYS`, `Closed initialization test connection.`, `index.startup`)
+        logger.log(`SYS`, `Initializing Logging Interface`, `index.startup`)
+        logger.connect(syber)
+        logger.log(`SYS`, `Starting up Syber Server`, `index.startup`)
+        syber.start()
     }
     catch (err) {
-        console.error(`ERROR STARTING DATABASE CONNECTION: ${err}`)
+        logger.error(`SYS`, `ERROR STARTING DATABASE CONNECTION: ${err.message}`, `index.startup`)
         process.exit(1)
     }
 }

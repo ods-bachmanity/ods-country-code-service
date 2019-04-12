@@ -1,4 +1,4 @@
-import { SchemaDef } from 'kyber-server'
+import { SchemaDef } from 'syber-server'
 
 export class DefaultResponseSchema extends SchemaDef {
     id = 'DefaultResponseSchema'
@@ -48,6 +48,33 @@ export class DefaultResponseSchema extends SchemaDef {
         },
         correlationId: {
             type: 'string'
+        },
+        ODS: {
+            type: 'object',
+            properties: {
+              Processors: {
+                type: 'object',
+                properties: {
+                  countrycode: {
+                    type: 'object',
+                    properties: {
+                      status: {
+                        type: 'string',
+                        example: 'success'
+                      },
+                      timestamp: {
+                        type: 'string',
+                        example: '2019-03-09T21:50:04.376+00:00'
+                      },
+                      version: {
+                        type: 'string',
+                        example: '2.0.13'
+                      }
+                    }
+                  }
+                }
+              }
+            }
         }
     }
 }

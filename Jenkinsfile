@@ -9,7 +9,7 @@ pipeline {
         steps {
             echo 'Cleaning..'
             sh 'rm -rf node_modules'
-			sh 'rm -rf app/node_modules'
+						sh 'rm -rf app/node_modules'
             sh 'rm -rf logs'
             sh 'rm -rf CountryCodeService*.zip'
         }
@@ -17,6 +17,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+								sh 'npm config set registry https://registry.npmjs.com/'
+								sh 'cd app && npm install'
                 sh 'npm install'
                 sh 'npm run tsc-version'
                 sh 'npm run tsc-build'
@@ -33,7 +35,7 @@ pipeline {
         }
 				stage('Deploy-Feature') {
 			        when {
-			        branch 'jenkins-multibranch'
+			        branch 'jenkins-ec2-com'
 			        }
 			            steps {
 			            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'backmanity-conditioner-aws', variable: 'AWS_ACCESS_KEY_ID']]) {
@@ -42,6 +44,11 @@ pipeline {
 												 sh 'mv CountryCodeService.zip "CountryCodeService_feature_$BUILD_NUMBER.zip"'
 												 sh 'aws s3 cp "CountryCodeService_feature_$BUILD_NUMBER.zip" s3://ods-sa-t1-io/Bachmanity/Country-Code-Service/'
 												 sh 'aws s3 ls s3://ods-sa-t1-io/Bachmanity/Country-Code-Service/'
+												 sh '''
+												 output=$(aws ec2 describe-instances --filters "Name=tag:aws:cloudformation:stack-id,Values=arn:aws:cloudformation:us-east-1:045627890776:stack/Country-Code-Service-Version-3/e67d1650-2403-11e9-aad3-12d7c29d9238" --query "Reservations[].Instances[].InstanceId")
+												 output=`echo "$output" | awk -F'"' '{print $2}'`
+												 aws ec2 terminate-instances --instance-ids $output
+												 '''
 			               }
 			            }
 			        }
@@ -56,6 +63,11 @@ pipeline {
 												 sh 'mv CountryCodeService.zip "CountryCodeService_dev_$BUILD_NUMBER.zip"'
 												 sh 'aws s3 cp "CountryCodeService_dev_$BUILD_NUMBER.zip" s3://ods-sa-t1-io/Bachmanity/Country-Code-Service/'
 												 sh 'aws s3 ls s3://ods-sa-t1-io/Bachmanity/Country-Code-Service/'
+												 sh '''
+												 output=$(aws ec2 describe-instances --filters "Name=tag:aws:cloudformation:stack-id,Values=arn:aws:cloudformation:us-east-1:045627890776:stack/Country-Code-Service-Version-3/e67d1650-2403-11e9-aad3-12d7c29d9238" --query "Reservations[].Instances[].InstanceId")
+												 output=`echo "$output" | awk -F'"' '{print $2}'`
+												 aws ec2 terminate-instances --instance-ids $output
+												 '''
 										 }
 									}
 							}
@@ -70,6 +82,11 @@ pipeline {
 												 sh 'mv CountryCodeService.zip "CountryCodeService_master_$BUILD_NUMBER.zip"'
 												 sh 'aws s3 cp "CountryCodeService_master_$BUILD_NUMBER.zip" s3://ods-sa-t1-io/Bachmanity/Country-Code-Service/'
 												 sh 'aws s3 ls s3://ods-sa-t1-io/Bachmanity/Country-Code-Service/'
+												 sh '''
+												 output=$(aws ec2 describe-instances --filters "Name=tag:aws:cloudformation:stack-id,Values=arn:aws:cloudformation:us-east-1:045627890776:stack/Country-Code-Service-Version-3/e67d1650-2403-11e9-aad3-12d7c29d9238" --query "Reservations[].Instances[].InstanceId")
+												 output=`echo "$output" | awk -F'"' '{print $2}'`
+												 aws ec2 terminate-instances --instance-ids $output
+												 '''
 										 }
 									}
 							}
